@@ -1,0 +1,32 @@
+{
+  "variant": "13.2",
+  "task": 13,
+  "unit": "pi",
+  "equation": "sin(x)*cos(2x) + sqrt(2)*cos(x)^2 + sin(x) = 0",
+  "interval": [
+    "3/2",
+    "3"
+  ],
+  "partA": [
+    {
+      "offset": "1/2",
+      "period": "1"
+    },
+    {
+      "offset": "-1/4",
+      "period": "2"
+    },
+    {
+      "offset": "-3/4",
+      "period": "2"
+    }
+  ],
+  "partB": [
+    "3/2",
+    "7/4",
+    "5/2"
+  ],
+  "source": "CHECK-MAT reference solution 13.2_solve_true.png",
+  "transcribed_by": "core build agent for the lead, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key substitutes every family and root into the equation and re-derives part (b) from part (a) on the interval"
+}

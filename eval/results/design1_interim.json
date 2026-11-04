@@ -1,0 +1,14 @@
+{
+  "metric": "design1_interim",
+  "runId": "r1",
+  "readAt": "2026-11-04T09:18:12.756174+00:00",
+  "scriptsMarked": 10,
+  "signedWithoutTeacher": 6,
+  "signedMatchingOfficial": 2,
+  "signedAboveOfficial": 4,
+  "readerAExact": 4,
+  "readerBExact": 4,
+  "readerAAboveOfficial": 5,
+  "readerBAboveOfficial": 5,
+  "note": "interim count read while run 1 was still marking; the reason for the design-2 amendment, not a reported result"
+}

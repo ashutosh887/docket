@@ -1,0 +1,13 @@
+{
+  "metric": "preregistration",
+  "recordedAt": "2026-11-04T08:31:01.215931+00:00",
+  "sha256": {
+    "docs/proof.md": "d9138602e71c7d07092298d6537a31eb7096061e988696a6afd7542b0a3ff58f",
+    "eval/slice.py": "42bf271671279b782d0dce202b87612d1e0db74b999b046e03b515a79fd5e7ac",
+    "eval/slice_seeded61.json": "e0a27ef0f9a06ad652b5d0a67339ae54079c3e1be9a1969a130976aa41f8faf6",
+    "eval/summarize.py": "3b0df80b12b1af43a7e6fcccf59641d145800df6c38eca9180c73a2298cffc4e",
+    "eval/run_agreement.py": "f1de92c56109309eeebcd5e4f68b0d2cf57bdde53678ae1c0fe3226693619fb3",
+    "eval/route.py": "0e41cecc78690a2203483a688c1337b0ca063c4f0c477905783d2fe3e3dd369d"
+  },
+  "proofCommit": "d1ff5158b9956e2e6d6bdf62a5b9da5e6fc58928 2026-11-04T13:59:13+05:30"
+}

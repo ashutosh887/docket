@@ -11,3 +11,9 @@ NOTES*.md
 submission/
 CLAUDE.md
 out/
+
+examples/scripts/
+examples/site-data/scripts/*.png
+STATUS.md
+CONTRACT.md
+**/STATUS-*.md

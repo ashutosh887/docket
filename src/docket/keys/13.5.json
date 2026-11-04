@@ -1,0 +1,31 @@
+{
+  "variant": "13.5",
+  "task": 13,
+  "unit": "pi",
+  "equation": "9*81^cos(x) - 28*9^cos(x) + 3 = 0",
+  "interval": [
+    "5/2",
+    "4"
+  ],
+  "partA": [
+    {
+      "offset": "1",
+      "period": "2"
+    },
+    {
+      "offset": "1/3",
+      "period": "2"
+    },
+    {
+      "offset": "-1/3",
+      "period": "2"
+    }
+  ],
+  "partB": [
+    "3",
+    "11/3"
+  ],
+  "source": "CHECK-MAT reference solution 13.5_solve_true.png",
+  "transcribed_by": "core build agent for the lead, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key substitutes every family and root into the equation and re-derives part (b) from part (a) on the interval"
+}

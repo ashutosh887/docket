@@ -1,0 +1,16 @@
+{
+  "issuedAt": "2026-11-04T07:01:40.000Z",
+  "entries": [
+    {
+      "credentialId": "dkt_fx-02_v1_1",
+      "status": "superseded",
+      "reason": "Scheme ege-profile-math-task-13 v1 → v2 changed K2; total 0/2 → 1/2.",
+      "replacedBy": "dkt_fx-02_v2_1"
+    }
+  ],
+  "signature": {
+    "alg": "ECDSA_SHA_256",
+    "keyId": "fixture:local-test-key",
+    "value": "MEYCIQDC3m5SxLJMNeUqgdknGdjoHxo7JQT6Pm6s0m/7YAjzGQIhAMlnp1YNEG2EIXWZ9NgiuKi4s4jlMJ2cY5xKSGQNuGqb"
+  }
+}

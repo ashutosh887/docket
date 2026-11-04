@@ -1,0 +1,25 @@
+{
+  "name": "docket-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "data": "node scripts/site-data.mjs",
+    "fixtures": "node scripts/fixtures.mjs",
+    "dev": "npm run data && vite",
+    "dev:fixtures": "DOCKET_DATA=fixture npm run data && vite",
+    "build": "npm run data && tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  }
+}

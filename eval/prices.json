@@ -1,0 +1,23 @@
+{
+  "_source": "Groq models page and Gemini API pricing page, read 4 Nov 2026 13:08, 13:18 and 14:42 IST",
+  "groq:qwen/qwen3.8-27b": {
+    "inPerMillion": 0.8,
+    "outPerMillion": 4.0,
+    "url": "https://console.groq.com/docs/models",
+    "readAt": "2026-11-04T07:38:00Z"
+  },
+  "gemini:gemini-3-flash-preview": {
+    "inPerMillion": 0.5,
+    "outPerMillion": 3.0,
+    "url": "https://aistudio.google.com/docs/pricing",
+    "readAt": "2026-11-04T07:48:00Z",
+    "note": "paid Standard tier; output price includes thinking tokens"
+  },
+  "gemini:gemini-3.5-flash-lite": {
+    "inPerMillion": 0.3,
+    "outPerMillion": 2.5,
+    "url": "https://aistudio.google.com/docs/pricing",
+    "readAt": "2026-11-04T09:12:00Z",
+    "note": "paid Standard tier; output price includes thinking tokens"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemeId": "ege-profile-math-task-13",
+  "schemeVersion": "v2",
+  "previousVersion": "v1",
+  "changedCriteria": [
+    "K2"
+  ],
+  "note": "K2 now credits a correct selection method carried forward from a part (a) slip.",
+  "criteria": [
+    {
+      "id": "K1",
+      "max": 1,
+      "text": "Part (a): the equation is solved and every root is stated."
+    },
+    {
+      "id": "K2",
+      "max": 1,
+      "text": "Part (b): the roots in the interval are selected by a correct method, carrying forward part (a)."
+    }
+  ]
+}

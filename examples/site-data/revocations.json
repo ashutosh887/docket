@@ -1,0 +1,22 @@
+{
+  "issuedAt": "2026-11-04T09:15:02Z",
+  "entries": [
+    {
+      "credentialId": "dkt_13.2.3_v1_1",
+      "status": "superseded",
+      "reason": "scheme v1 -> v2: total 1 -> 0. Demonstration amendment (not an FIPI change): on task 13, 1 point now requires that every step of both parts is correct with any wrong answer caused only by a computational error (K3); a correct part (a) next to a wrong root selection in part (b) no longer earns it.",
+      "replacedBy": "dkt_13.2.3_v2_1"
+    },
+    {
+      "credentialId": "dkt_13.3.3_v1_1",
+      "status": "superseded",
+      "reason": "scheme v1 -> v2: total 1 -> 0. Demonstration amendment (not an FIPI change): on task 13, 1 point now requires that every step of both parts is correct with any wrong answer caused only by a computational error (K3); a correct part (a) next to a wrong root selection in part (b) no longer earns it.",
+      "replacedBy": "dkt_13.3.3_v2_1"
+    }
+  ],
+  "signature": {
+    "alg": "ECDSA_SHA_256",
+    "keyId": "arn:aws:kms:ap-south-1:960149837193:key/3e29a662-62e2-4526-aacf-28f7b0722921",
+    "value": "MEUCIQCqyNwqMPh2SRGso5wKyxpORomyuQVjq04+H1TBF9Cf3gIgbJWw0IVJ3w9gTaRYruYDwGZ/Tt25norh4GUaMPA8U6o="
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "scriptId": "13.6.1",
+  "task": 13,
+  "officialScore": 1,
+  "pages": [
+    "scripts/13.6.1-1.png"
+  ],
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 0,
+      "readerB": 0,
+      "margin": 0.5,
+      "status": "contested",
+      "reason": "a reader's confidence is below 0.6"
+    },
+    {
+      "id": "K2",
+      "readerA": 0,
+      "readerB": 0,
+      "margin": 0.5,
+      "status": "contested",
+      "reason": "a reader's confidence is below 0.6"
+    },
+    {
+      "id": "K3",
+      "readerA": 0,
+      "readerB": 0,
+      "margin": 0.5,
+      "status": "contested",
+      "reason": "a reader's confidence is below 0.6"
+    }
+  ],
+  "readings": {
+    "a": {
+      "reader": "groq:qwen/qwen3.8-27b",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": false,
+          "confidence": 0.5,
+          "evidence": "a) 2log^2_4(4sinx)-5log_4(4sinx)+2=0, log_4(4sinx)=t, 2t^2-5t+2=0; D=25-16=9=3^2, t1=1/2, t2=1; 4sinx=2; sinx=1/2; x=pi/6+2pi k, 5pi/6+2pi k"
+        },
+        {
+          "id": "K2",
+          "met": false,
+          "confidence": 0.5,
+          "evidence": "b) [circle diagram] Ответ: -3pi/2, -7pi/6."
+        },
+        {
+          "id": "K3",
+          "met": false,
+          "confidence": 0.5,
+          "evidence": "t2=1; log_4(4sinx)=log_4 4; 4sinx=4; sinx=1; x=pi/2+2pi k (wrong, should be 5pi/6+2pi k)"
+        }
+      ],
+      "declined": false,
+      "seconds": 81.7
+    },
+    "b": {
+      "reader": "gemini:gemini-3.5-flash-lite",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": false,
+          "confidence": 1.0,
+          "evidence": "2t^2-5t+2=0; D=25-16=9=3^2, t_1=1/2; t_2=1"
+        },
+        {
+          "id": "K2",
+          "met": false,
+          "confidence": 1.0,
+          "evidence": "Ответ: -3\\pi/2, -7\\pi/6"
+        },
+        {
+          "id": "K3",
+          "met": false,
+          "confidence": 1.0,
+          "evidence": "sin x = 2 and sin x = 1 included in solution"
+        }
+      ],
+      "declined": false,
+      "seconds": 92.7
+    }
+  },
+  "credentials": [
+    "dkt_13.6.1_v1_1"
+  ]
+}

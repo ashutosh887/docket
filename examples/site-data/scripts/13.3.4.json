@@ -1,0 +1,89 @@
+{
+  "scriptId": "13.3.4",
+  "task": 13,
+  "officialScore": 0,
+  "pages": [
+    "scripts/13.3.4-1.png"
+  ],
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.1,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K2",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.15,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K3",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.2,
+      "status": "agreed",
+      "reason": null
+    }
+  ],
+  "readings": {
+    "a": {
+      "reader": "groq:qwen/qwen3.8-27b",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "x1=2πk; x2=-π/6+2πn; x3=5π/6+2πn, при k,m,n∈Z (совпадает с эталоном)"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 0.85,
+          "evidence": "x1=2π→входит; x2=3π+π/6=19π/6→входит; x3=4π-π/6=23π/6→не входит; Ответ: 2π; 19π/6"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 0.8,
+          "evidence": "2sinx·cosx-2sinx+cosx-1=0; 2sinx(cosx-1)+cosx-1=0; (cosx-1)(2sinx+1)=0; далее разбивка на случаи"
+        }
+      ],
+      "declined": false,
+      "seconds": 196.5
+    },
+    "b": {
+      "reader": "gemini:gemini-3.5-flash-lite",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "(\\cos x - 1)(2\\sin x + 1) = 0"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "2\\pi; \\frac{19\\pi}{6}"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "Ответ: а) 2\\pi k ... б) 2\\pi; \\frac{19\\pi}{6}"
+        }
+      ],
+      "declined": false,
+      "seconds": 21.7
+    }
+  },
+  "credentials": [
+    "dkt_13.3.4_v1_1"
+  ]
+}

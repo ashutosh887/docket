@@ -1,0 +1,89 @@
+{
+  "scriptId": "13.1.1",
+  "task": 13,
+  "officialScore": 2,
+  "pages": [
+    "scripts/13.1.1-1.png"
+  ],
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.1,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K2",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.1,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K3",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.15,
+      "status": "agreed",
+      "reason": null
+    }
+  ],
+  "readings": {
+    "a": {
+      "reader": "groq:qwen/qwen3.8-27b",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "a) cos2x - √2 sin(x+π)=1 ... sinx(2sinx-√2)=0 ... x=πk; x=π/4+2πk; x=3π/4+2πk, k∈Z"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "б) ... x1=3/4π-4π=-13π/4; x2=π(-3)=-3π; x3=π(-2)=-2π; x4 не подходят. Ответ: -13π/4; -3π; -2π"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 0.85,
+          "evidence": "cos2x-√2(-sinx)=1; 1-2sin²x+√2sinx-1=0; -2sin²x+√2sinx=0; sinx(2sinx-√2)=0; тригонометрическая окружность"
+        }
+      ],
+      "declined": false,
+      "seconds": 84.7
+    },
+    "b": {
+      "reader": "gemini:gemini-3.5-flash-lite",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "cos 2x - \\sqrt{2}\\sin(x+\\pi) = 1 ... \\sin x = 0 \\implies x = \\pi k"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "-3\\pi; -2\\pi; -\\frac{13}{4}\\pi"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "Ответ: а) \\pi k, \\dots б) -3\\pi; -2\\pi; -\\frac{13}{4}\\pi"
+        }
+      ],
+      "declined": false,
+      "seconds": 75.9
+    }
+  },
+  "credentials": [
+    "dkt_13.1.1_v1_1"
+  ]
+}

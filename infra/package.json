@@ -1,0 +1,23 @@
+{
+  "name": "docket-infra",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "synth": "cdk synth --profile cyclosentry",
+    "diff": "cdk diff --profile cyclosentry",
+    "deploy": "cdk deploy DocketStack --profile cyclosentry --require-approval never",
+    "publish:site": "bash publish.sh"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.275.0",
+    "constructs": "10.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "aws-cdk": "2.1147.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2"
+  }
+}

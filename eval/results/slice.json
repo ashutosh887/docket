@@ -1,0 +1,26 @@
+{
+  "scripts": 122,
+  "pages": 152,
+  "byTask": {
+    "13": 21,
+    "14": 18,
+    "15": 19,
+    "16": 17,
+    "17": 15,
+    "18": 16,
+    "19": 16
+  },
+  "byOfficialGrade": {
+    "0": 28,
+    "1": 40,
+    "2": 35,
+    "3": 11,
+    "4": 8
+  },
+  "seededSubset": 61,
+  "variant": "without_answer",
+  "mode": "with_true_solution",
+  "metric": "slice",
+  "seed": 20261104,
+  "writtenAt": "2026-11-04T07:41:32.372565+00:00"
+}

@@ -1,0 +1,18 @@
+{
+  "schemeId": "ege-profile-math-task-13",
+  "schemeVersion": "v1",
+  "previousVersion": null,
+  "changedCriteria": [],
+  "criteria": [
+    {
+      "id": "K1",
+      "max": 1,
+      "text": "Part (a): the equation is solved and every root is stated."
+    },
+    {
+      "id": "K2",
+      "max": 1,
+      "text": "Part (b): the roots in the interval are selected, with part (a) correct."
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "scriptId": "13.6.3",
+  "task": 13,
+  "officialScore": 0,
+  "pages": [
+    "scripts/13.6.3-1.png"
+  ],
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.1,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K2",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.15,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K3",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.2,
+      "status": "agreed",
+      "reason": null
+    }
+  ],
+  "readings": {
+    "a": {
+      "reader": "groq:qwen/qwen3.8-27b",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "t1=(5-3)/4=1/2; t2=(5+3)/4=2; не подходит т.к. -1<=sinx<=1; x=pi/6+2pi n, 5pi/6+2pi n, n in Z"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 0.85,
+          "evidence": "[-3pi/2;0]; unit circle with -7pi/6 marked; Ответ: б) -7pi/6"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 0.8,
+          "evidence": "2t^2-5t+2=0; D=25-16=9; t1=1/2, t2=2; sinx=1/2; x=pi/6+2pi n, 5pi/6+2pi n; б) -7pi/6"
+        }
+      ],
+      "declined": false,
+      "seconds": 65.8
+    },
+    "b": {
+      "reader": "gemini:gemini-3.5-flash-lite",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "Ответ: а) \\frac{\\pi}{6}+2\\pi n; \\frac{5\\pi}{6}+2\\pi n"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "б) -\\frac{7\\pi}{6}"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "2\\log_4^2(4\\sin x) - 5\\log_4(4\\sin x)+2=0"
+        }
+      ],
+      "declined": false,
+      "seconds": 68.5
+    }
+  },
+  "credentials": [
+    "dkt_13.6.3_v1_1"
+  ]
+}

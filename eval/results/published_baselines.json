@@ -1,0 +1,176 @@
+{
+  "metric": "published_baselines",
+  "source": "https://github.com/Karifannaa/Auto-check-EGE-math/tree/main/model_results",
+  "note": "Numbers read from the CHECK-MAT repo's own model_results files; not run by Docket.",
+  "readAt": "2026-11-04T07:35:06.999270+00:00",
+  "rows": [
+    {
+      "model": "openai/o4-mini",
+      "mode": "with_answer",
+      "scripts": 122,
+      "exactPct": 56.6,
+      "withinOnePct": 86.9,
+      "file": "model_results/openai_o4-mini/benchmark_all_tasks_o4-mini_all_modes_20250616_015100_analysis.json"
+    },
+    {
+      "model": "openai/o4-mini",
+      "mode": "without_answer",
+      "scripts": 122,
+      "exactPct": 55.7,
+      "withinOnePct": 82.8,
+      "file": "model_results/openai_o4-mini/benchmark_all_tasks_o4-mini_all_modes_20250616_015100_analysis.json"
+    },
+    {
+      "model": "openai/o4-mini",
+      "mode": "with_true_solution",
+      "scripts": 122,
+      "exactPct": 54.1,
+      "withinOnePct": 82.8,
+      "file": "model_results/openai_o4-mini/benchmark_all_tasks_o4-mini_all_modes_20250616_015100_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.0-flash-001",
+      "mode": "with_answer",
+      "scripts": 122,
+      "exactPct": 47.5,
+      "withinOnePct": 81.1,
+      "file": "model_results/google_gemini-2.0-flash-001/benchmark_all_tasks_gemini-2.0-flash-001_20250614_173838_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.0-flash-001",
+      "mode": "with_true_solution",
+      "scripts": 122,
+      "exactPct": 46.7,
+      "withinOnePct": 83.6,
+      "file": "model_results/google_gemini-2.0-flash-001/benchmark_all_tasks_gemini-2.0-flash-001_20250614_171902_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.5-flash-preview",
+      "mode": "with_true_solution",
+      "scripts": 122,
+      "exactPct": 45.9,
+      "withinOnePct": 77.9,
+      "file": "model_results/google_gemini-2.5-flash-preview/benchmark_all_tasks_gemini-2.5-flash-preview_20250614_193945_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.5-flash-preview",
+      "mode": "without_answer",
+      "scripts": 122,
+      "exactPct": 44.3,
+      "withinOnePct": 80.3,
+      "file": "model_results/google_gemini-2.5-flash-preview/benchmark_all_tasks_gemini-2.5-flash-preview_20250614_204320_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.5-flash-preview:thinking",
+      "mode": "with_true_solution",
+      "scripts": 122,
+      "exactPct": 43.4,
+      "withinOnePct": 72.1,
+      "file": "model_results/google_gemini-2.5-flash-preview_thinking/benchmark_all_tasks_gemini-2.5-flash-preview_20250614_222041_analysis.json"
+    },
+    {
+      "model": "qwen/qwen2.5-vl-32b-instruct",
+      "mode": "with_true_solution",
+      "scripts": 122,
+      "exactPct": 43.4,
+      "withinOnePct": 77.9,
+      "file": "model_results/qwen-2.5-vl-32b/benchmark_all_tasks_qwen2.5-vl-32b-instruct_20250615_193114_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.5-flash-preview:thinking",
+      "mode": "with_answer",
+      "scripts": 122,
+      "exactPct": 42.6,
+      "withinOnePct": 65.6,
+      "file": "model_results/google_gemini-2.5-flash-preview_thinking/benchmark_all_tasks_gemini-2.5-flash-preview_20250615_010255_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.5-flash-preview",
+      "mode": "with_answer",
+      "scripts": 122,
+      "exactPct": 41.0,
+      "withinOnePct": 81.1,
+      "file": "model_results/google_gemini-2.5-flash-preview/benchmark_all_tasks_gemini-2.5-flash-preview_20250614_204320_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.5-flash-preview:thinking",
+      "mode": "without_answer",
+      "scripts": 122,
+      "exactPct": 40.2,
+      "withinOnePct": 62.3,
+      "file": "model_results/google_gemini-2.5-flash-preview_thinking/benchmark_all_tasks_gemini-2.5-flash-preview_20250615_010255_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.0-flash-lite-001",
+      "mode": "with_true_solution",
+      "scripts": 122,
+      "exactPct": 38.5,
+      "withinOnePct": 81.1,
+      "file": "model_results/google_gemini-2.0-flash-lite-001/benchmark_all_tasks_gemini-2.0-flash-lite-001_20250614_164756_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.0-flash-001",
+      "mode": "without_answer",
+      "scripts": 122,
+      "exactPct": 36.9,
+      "withinOnePct": 82.0,
+      "file": "model_results/google_gemini-2.0-flash-001/benchmark_all_tasks_gemini-2.0-flash-001_20250614_173838_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.0-flash-lite-001",
+      "mode": "with_answer",
+      "scripts": 122,
+      "exactPct": 35.2,
+      "withinOnePct": 80.3,
+      "file": "model_results/google_gemini-2.0-flash-lite-001/benchmark_all_tasks_gemini-2.0-flash-lite-001_20250614_170136_analysis.json"
+    },
+    {
+      "model": "google/gemini-2.0-flash-lite-001",
+      "mode": "without_answer",
+      "scripts": 122,
+      "exactPct": 32.0,
+      "withinOnePct": 76.2,
+      "file": "model_results/google_gemini-2.0-flash-lite-001/benchmark_all_tasks_gemini-2.0-flash-lite-001_20250614_170136_analysis.json"
+    },
+    {
+      "model": "qwen/qwen2.5-vl-32b-instruct",
+      "mode": "without_answer",
+      "scripts": 122,
+      "exactPct": 31.1,
+      "withinOnePct": 67.2,
+      "file": "model_results/qwen-2.5-vl-32b/benchmark_all_tasks_qwen2.5-vl-32b-instruct_20250615_171635_analysis.json"
+    },
+    {
+      "model": "qwen/qwen2.5-vl-32b-instruct",
+      "mode": "with_answer",
+      "scripts": 122,
+      "exactPct": 30.3,
+      "withinOnePct": 70.5,
+      "file": "model_results/qwen-2.5-vl-32b/benchmark_all_tasks_qwen2.5-vl-32b-instruct_20250615_171635_analysis.json"
+    },
+    {
+      "model": "arcee-ai/spotlight",
+      "mode": "without_answer",
+      "scripts": 122,
+      "exactPct": 27.9,
+      "withinOnePct": 74.6,
+      "file": "model_results/arcee-ai_spotlight/benchmark_all_tasks_spotlight_20250615_121720_analysis.json"
+    },
+    {
+      "model": "arcee-ai/spotlight",
+      "mode": "with_answer",
+      "scripts": 122,
+      "exactPct": 26.2,
+      "withinOnePct": 71.3,
+      "file": "model_results/arcee-ai_spotlight/benchmark_all_tasks_spotlight_20250615_121720_analysis.json"
+    },
+    {
+      "model": "arcee-ai/spotlight",
+      "mode": "with_true_solution",
+      "scripts": 122,
+      "exactPct": 25.4,
+      "withinOnePct": 68.9,
+      "file": "model_results/arcee-ai_spotlight/benchmark_all_tasks_spotlight_20250615_140030_analysis.json"
+    }
+  ]
+}

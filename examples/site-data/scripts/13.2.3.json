@@ -1,0 +1,90 @@
+{
+  "scriptId": "13.2.3",
+  "task": 13,
+  "officialScore": 1,
+  "pages": [
+    "scripts/13.2.3-1.png"
+  ],
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.1,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K2",
+      "readerA": 1,
+      "readerB": 0,
+      "margin": 0.7,
+      "status": "contested",
+      "reason": "readers disagree"
+    },
+    {
+      "id": "K3",
+      "readerA": 1,
+      "readerB": 0,
+      "margin": 0.85,
+      "status": "contested",
+      "reason": "readers disagree"
+    }
+  ],
+  "readings": {
+    "a": {
+      "reader": "groq:qwen/qwen3.8-27b",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "Ответ: а) x=π/2+πn; x=-π/4+2πn; x=-3π/4+2πn, n∈Z (matches official roots)"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "б) 3π/2, 7π/4, 5π/2 (matches official interval roots)"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 0.85,
+          "evidence": "cos²x(2sinx+√2)=0; cosx=0 / sinx=-√2/2; unit circle used; steps mirror official solution"
+        }
+      ],
+      "declined": false,
+      "seconds": 33.4
+    },
+    "b": {
+      "reader": "gemini:gemini-3.5-flash-lite",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "Ответ: а) x = \\pi/2 + \\pi n, ... x = -3\\pi/4 + 2\\pi n"
+        },
+        {
+          "id": "K2",
+          "met": false,
+          "confidence": 0.8,
+          "evidence": "б) 3\\pi/2; 7\\pi/4; \\pi/2"
+        },
+        {
+          "id": "K3",
+          "met": false,
+          "confidence": 1.0,
+          "evidence": "б) 3\\pi/2; 7\\pi/4; \\pi/2"
+        }
+      ],
+      "declined": false,
+      "seconds": 57.6
+    }
+  },
+  "credentials": [
+    "dkt_13.2.3_v1_1",
+    "dkt_13.2.3_v2_1"
+  ]
+}

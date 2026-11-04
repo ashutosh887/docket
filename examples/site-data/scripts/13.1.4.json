@@ -1,0 +1,89 @@
+{
+  "scriptId": "13.1.4",
+  "task": 13,
+  "officialScore": 1,
+  "pages": [
+    "scripts/13.1.4-1.png"
+  ],
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.05,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K2",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.05,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K3",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.1,
+      "status": "agreed",
+      "reason": null
+    }
+  ],
+  "readings": {
+    "a": {
+      "reader": "groq:qwen/qwen3.8-27b",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 0.95,
+          "evidence": "a) x∈{πk; π/4+2πk; 3π/4+2πk}, k∈Z"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 0.95,
+          "evidence": "б) x∈{-13π/4; -3π; -2π}"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "1-2sin²x+√2 sinx-1=0; 2sin²x-√2 sinx=0; sinx(2sinx-√2)=0; sinx=0, sinx=√2/2"
+        }
+      ],
+      "declined": false,
+      "seconds": 89.6
+    },
+    "b": {
+      "reader": "gemini:gemini-3.5-flash-lite",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "x=\\pi k, x=\\frac{\\pi}{4}+2\\pi k, x=\\frac{3\\pi}{4}+2\\pi k"
+        },
+        {
+          "id": "K2",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "-\\frac{13\\pi}{4}; -3\\pi; -2\\pi"
+        },
+        {
+          "id": "K3",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "1-2\\sin^2x+\\sqrt{2}\\sin x-1=0"
+        }
+      ],
+      "declined": false,
+      "seconds": 65.4
+    }
+  },
+  "credentials": [
+    "dkt_13.1.4_v1_1"
+  ]
+}

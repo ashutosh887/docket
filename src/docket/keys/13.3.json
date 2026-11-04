@@ -1,0 +1,31 @@
+{
+  "variant": "13.3",
+  "task": 13,
+  "unit": "pi",
+  "equation": "sin(2x) + 2*sin(-x) + cos(-x) - 1 = 0",
+  "interval": [
+    "2",
+    "7/2"
+  ],
+  "partA": [
+    {
+      "offset": "0",
+      "period": "2"
+    },
+    {
+      "offset": "-1/6",
+      "period": "2"
+    },
+    {
+      "offset": "-5/6",
+      "period": "2"
+    }
+  ],
+  "partB": [
+    "2",
+    "19/6"
+  ],
+  "source": "CHECK-MAT reference solution 13.3_solve_true.png",
+  "transcribed_by": "core build agent for the lead, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key substitutes every family and root into the equation and re-derives part (b) from part (a) on the interval"
+}

@@ -1,0 +1,90 @@
+{
+  "scriptId": "13.3.3",
+  "task": 13,
+  "officialScore": 1,
+  "pages": [
+    "scripts/13.3.3-1.png"
+  ],
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 1,
+      "readerB": 1,
+      "margin": 0.1,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K2",
+      "readerA": 0,
+      "readerB": 0,
+      "margin": 0.15,
+      "status": "agreed",
+      "reason": null
+    },
+    {
+      "id": "K3",
+      "readerA": 0,
+      "readerB": 0,
+      "margin": 0.2,
+      "status": "agreed",
+      "reason": null
+    }
+  ],
+  "readings": {
+    "a": {
+      "reader": "groq:qwen/qwen3.8-27b",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 0.9,
+          "evidence": "a) sin2x+2sin(-x)+cos(-x)-1=0 ... (cosx-1)(2sinx+1)=0 => x=2πn; x=-π/6+2πk; x=-5π/6+2πk, n,k∈Z"
+        },
+        {
+          "id": "K2",
+          "met": false,
+          "confidence": 0.85,
+          "evidence": "б) circle with 2π,7π/2,19π/6; 12π-5π/6=7π/6; Ответ: б) {2π; 7π/6}"
+        },
+        {
+          "id": "K3",
+          "met": false,
+          "confidence": 0.8,
+          "evidence": "factorization (cosx-1)(2sinx+1)=0 correct; but б) answer 7π/6 is wrong (should be 19π/6), not a computational slip"
+        }
+      ],
+      "declined": false,
+      "seconds": 62.9
+    },
+    "b": {
+      "reader": "gemini:gemini-3.5-flash-lite",
+      "criteria": [
+        {
+          "id": "K1",
+          "met": true,
+          "confidence": 1.0,
+          "evidence": "(cos x - 1)(2 sin x + 1) = 0"
+        },
+        {
+          "id": "K2",
+          "met": false,
+          "confidence": 1.0,
+          "evidence": "б) {2\\pi; \\frac{7\\pi}{6}"
+        },
+        {
+          "id": "K3",
+          "met": false,
+          "confidence": 1.0,
+          "evidence": "б) {2\\pi; \\frac{7\\pi}{6}"
+        }
+      ],
+      "declined": false,
+      "seconds": 48.0
+    }
+  },
+  "credentials": [
+    "dkt_13.3.3_v1_1",
+    "dkt_13.3.3_v2_1"
+  ]
+}
