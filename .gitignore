@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+data/raw/
+eval/runs/
+node_modules/
+dist/
+cdk.out/
+*.log
+NOTES*.md
+submission/
+CLAUDE.md
+out/
