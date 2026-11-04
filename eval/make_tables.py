@@ -107,7 +107,7 @@ def verdict_table(verdicts, label, source):
 def robustness_table():
     checks = [
         ("Tampered credentials and revocation lists rejected", "tamper"),
-        ("Scan-less requests declined (blind check, design 2, task-13 scripts of the seeded 61; reader A not run, daily cap)", "blind"),
+        ("Scan-less requests the pipeline refused to grade (blind check, design 2, task-13 scripts of the seeded 61; reader A not run, daily cap; since Amendment 8 code discards every reading made without a student page)", "blind"),
         ("Bad readings blocked before signing (guard), design 1 readings", "guard_d1"),
         ("Bad readings blocked before signing (guard), design 2 readings", "guard_d2"),
     ]
@@ -127,6 +127,9 @@ def robustness_table():
         lines.append(f"| {label}{tag} | {data['passed']} of {data['total']} | `eval/results/{name}.json` |")
         for part in data.get("parts", []):
             lines.append(f"| &nbsp;&nbsp;{part['label']} | {part['passed']} of {part['total']} | |")
+            if "readerDeclined" in part:
+                lines.append(f"| &nbsp;&nbsp;{part['label']}: the reader itself declined | {part['readerDeclined']} of {part['total']} | |")
+                lines.append(f"| &nbsp;&nbsp;{part['label']}: the reader returned an invented student answer, discarded by code | {part['readerInventedWork']} of {part['total']} | |")
             if "anyCriterionMet" in part:
                 lines.append(f"| &nbsp;&nbsp;{part['label']}: gave no point at all (no criterion met, 0 by the scheme) | {part['total'] - part['anyCriterionMet']} of {part['total']} | |")
     for remark_name in ("remark_d1", "remark_d2"):

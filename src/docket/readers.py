@@ -314,13 +314,22 @@ def retryable(error: Exception) -> bool:
     return any(marker in text for marker in RETRYABLE)
 
 
-def with_reading(record: dict, script: Script, scheme: Scheme) -> dict:
-    if "transcript" not in record:
-        return record
-    from docket.answers import derive
+NO_STUDENT_PAGE = "no student page was sent with this request, so code discards the reading"
 
-    record["reading"] = derive(record["transcript"], script, scheme)
-    record["definitions"] = {c.id: c.definition_hash for c in scheme.criteria}
+
+def reader_declined(record: dict) -> bool:
+    said = record.get("transcript") or record.get("reading") or {}
+    return said.get("declined") is True or said.get("student_work_visible") is False
+
+
+def with_reading(record: dict, script: Script, scheme: Scheme) -> dict:
+    if "transcript" in record:
+        from docket.answers import derive
+
+        record["reading"] = derive(record["transcript"], script, scheme)
+        record["definitions"] = {c.id: c.definition_hash for c in scheme.criteria}
+    if record.get("blind") or not script.images:
+        record["reading"] = {**record["reading"], "declined": True, "decline_reason": NO_STUDENT_PAGE, "criteria": []}
     return record
 
 

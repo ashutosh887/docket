@@ -5,7 +5,7 @@ import time
 
 from common import ist, now_iso, slice_scripts, tokens_of, use_cache_for, with_outer_retry, write_result
 from docket import config
-from docket.readers import read_script
+from docket.readers import read_script, reader_declined
 from docket.scheme import scheme_for
 
 
@@ -13,12 +13,13 @@ def gave_a_grade(record, scheme):
     reading = record["reading"]
     met = {c["id"]: 1 if c["met"] else 0 for c in reading["criteria"]}
     points = scheme.score(met)
-    declined = reading.get("declined") is True or reading.get("student_work_visible") is False
+    discarded = reading.get("declined") is True or reading.get("student_work_visible") is False
     return {
-        "declined": declined,
+        "readerDeclined": reader_declined(record),
+        "codeDiscarded": discarded,
         "anyMet": any(met.values()),
         "points": points,
-        "gradeGiven": not declined or points > 0,
+        "gradeGiven": not discarded or points > 0,
     }
 
 
@@ -56,7 +57,7 @@ async def main():
             for side, out in await asyncio.gather(*(side_call(script, scheme, side, spec) for side, spec in readers.items())):
                 row[side] = out
         done["n"] += 1
-        print(f"{ist()} blind {done['n']}/{len(scripts)} {script.script_id} " + " ".join(f"{k}={row[k].get('declined', 'err')}" for k in readers), flush=True)
+        print(f"{ist()} blind {done['n']}/{len(scripts)} {script.script_id} " + " ".join(f"{k}={row[k].get('codeDiscarded', 'err')}" for k in readers), flush=True)
         return row
 
     rows = await asyncio.gather(*(one(s) for s in scripts))
@@ -66,7 +67,7 @@ async def main():
         answered = [r[side] for r in rows if "error" not in r[side]]
         ok = sum(1 for r in answered if not r["gradeGiven"])
         parts.append({"label": f"reader {side.upper()} `{spec}`", "reader": spec, "total": len(answered), "passed": ok,
-                      "declinedFlag": sum(r["declined"] for r in answered), "anyCriterionMet": sum(r["anyMet"] for r in answered),
+                      "readerDeclined": sum(r["readerDeclined"] for r in answered), "readerInventedWork": sum(not r["readerDeclined"] for r in answered), "codeDiscarded": sum(r["codeDiscarded"] for r in answered), "anyCriterionMet": sum(r["anyMet"] for r in answered),
                       "errors": sum(1 for r in rows if "error" in r[side])})
         passed += ok
         total += len(answered)
@@ -75,7 +76,7 @@ async def main():
         "slice": args.slice,
         "scripts": len(scripts),
         "schemeVersion": args.version,
-        "method": "each reader gets the grading request with the student's pages removed (the reference statement and solution stay); a pass is a reading that declines (declined true or student_work_visible false) and scores 0 points by the scheme",
+        "method": "each reader gets the grading request with the student's pages removed (the reference statement and solution stay); readerDeclined counts readings where the reader itself declined or said no student work was visible, readerInventedWork counts readings that returned a student answer anyway; a pass is a reading the pipeline will not grade: code discards every reading made without a student page (readers.with_reading) and it scores 0 points",
         "readers": readers,
         "design": os.environ.get("DOCKET_DESIGN", "2"),
         "startedAt": started,

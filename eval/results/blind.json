@@ -3,229 +3,208 @@
   "slice": "task13s61",
   "scripts": 10,
   "schemeVersion": "v1",
-  "method": "each reader gets the grading request with the student's pages removed (the reference statement and solution stay); a pass is a reading that declines (declined true or student_work_visible false) and scores 0 points by the scheme",
+  "method": "each reader gets the grading request with the student's pages removed (the reference statement and solution stay); readerDeclined counts readings where the reader itself declined or said no student work was visible, readerInventedWork counts readings that returned a student answer anyway; a pass is a reading the pipeline will not grade: code discards every reading made without a student page (readers.with_reading) and it scores 0 points",
   "readers": {
     "b": "gemini:gemini-3.5-flash-lite"
   },
   "design": "2",
-  "startedAt": "2026-11-04T11:38:53.506392+00:00",
-  "finishedAt": "2026-11-04T11:39:15.887869+00:00",
+  "startedAt": "2026-11-04T16:06:10.237763+00:00",
+  "finishedAt": "2026-11-04T16:06:10.249593+00:00",
   "total": 10,
-  "passed": 2,
+  "passed": 10,
   "parts": [
     {
       "label": "reader B `gemini:gemini-3.5-flash-lite`",
       "reader": "gemini:gemini-3.5-flash-lite",
       "total": 10,
-      "passed": 2,
-      "declinedFlag": 2,
+      "passed": 10,
+      "readerDeclined": 2,
+      "readerInventedWork": 8,
+      "codeDiscarded": 10,
       "anyCriterionMet": 0,
       "errors": 0
     }
   ],
-  "gradesGiven": [
-    {
-      "scriptId": "13.1.1",
-      "reader": "b"
-    },
-    {
-      "scriptId": "13.1.4",
-      "reader": "b"
-    },
-    {
-      "scriptId": "13.2.3",
-      "reader": "b"
-    },
-    {
-      "scriptId": "13.3.3",
-      "reader": "b"
-    },
-    {
-      "scriptId": "13.3.4",
-      "reader": "b"
-    },
-    {
-      "scriptId": "13.5.1",
-      "reader": "b"
-    },
-    {
-      "scriptId": "13.6.2",
-      "reader": "b"
-    },
-    {
-      "scriptId": "13.6.3",
-      "reader": "b"
-    }
-  ],
+  "gradesGiven": [],
   "rows": [
     {
       "scriptId": "13.1.1",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 226
         },
-        "reason": null,
-        "seconds": 6.7
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.1.4",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 330
         },
-        "reason": null,
-        "seconds": 6.4
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.2.3",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 268
         },
-        "reason": null,
-        "seconds": 3.0
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.3.3",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 244
         },
-        "reason": null,
-        "seconds": 4.4
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.3.4",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 229
         },
-        "reason": null,
-        "seconds": 3.1
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.5.1",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 217
         },
-        "reason": null,
-        "seconds": 3.9
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.5.2",
       "task": 13,
       "b": {
-        "declined": true,
+        "readerDeclined": true,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
         "gradeGiven": false,
-        "cached": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 95
         },
-        "reason": null,
-        "seconds": 8.6
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.6.1",
       "task": 13,
       "b": {
-        "declined": true,
+        "readerDeclined": true,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
         "gradeGiven": false,
-        "cached": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 95
         },
-        "reason": null,
-        "seconds": 9.2
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.6.2",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 241
         },
-        "reason": null,
-        "seconds": 10.0
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     },
     {
       "scriptId": "13.6.3",
       "task": 13,
       "b": {
-        "declined": false,
+        "readerDeclined": false,
+        "codeDiscarded": true,
         "anyMet": false,
         "points": 0,
-        "gradeGiven": true,
-        "cached": false,
+        "gradeGiven": false,
+        "cached": true,
         "tokens": {
           "in": 1277,
           "out": 246
         },
-        "reason": null,
-        "seconds": 6.1
+        "reason": "no student page was sent with this request, so code discards the reading",
+        "seconds": 0.0
       }
     }
   ]
