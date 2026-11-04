@@ -1,8 +1,10 @@
 # Docket
 
+![Docket](docs/images/cover.png)
+
 **When the exam board corrects its marking scheme, which students' grades are now wrong, and who fixes them?** Docket marks photos of handwritten exam scripts. A vision model transcribes what the student wrote, plain code checks it against the answer key and applies the official marking scheme, and a teacher decides anything two readers disagree on, through a Strands Graph interrupt. AWS KMS signs each result, and anyone can verify it in a browser with no account. When the scheme changes, one file landing in S3 re-marks every script, re-issues the grades that moved and revokes the old ones on a signed list.
 
-**[Live verify page](https://d37lfktm8wxh76.cloudfront.net)** · **[Demo video, under 3 minutes](https://youtu.be/ILI1JPPAMmU)** · **[Builder Center project](PROJECT_URL)**
+**[Live verify page](https://d37lfktm8wxh76.cloudfront.net)** · **[Demo video, 1:44](https://youtu.be/ILI1JPPAMmU)** · **[Builder Center project](PROJECT_URL)**
 
 Built for the AWS Builder Center hackathon Strands SDK: Workshop to Ship, Education focus area, by [@ashutosh887](https://github.com/ashutosh887). Release [`v1.0.0`](https://github.com/ashutosh887/docket/releases/tag/v1.0.0) is the code as submitted.
 
@@ -63,6 +65,8 @@ The bar was committed before the first counted reading, with dated amendments wh
 ## How it works
 
 The rule is one sentence: **the model reads, code decides.** Readers return structured readings. Plain code owns correctness, points, totals, routing, signing and re-marking.
+
+![Design 1 let the models judge; design 2 has the model transcribe and code check the answer key](docs/images/design-change.png)
 
 ```mermaid
 flowchart LR

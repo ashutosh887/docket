@@ -92,7 +92,8 @@ function Body({ route }: { route: Route }) {
       <footer className="foot">
         {data.index.source === "fixture"
           ? "Sample scripts, signed with a local test key while the live run is prepared."
-          : `Credentials signed by AWS KMS (${[...data.credentials.values()][0]?.doc.signature.keyId ?? "key"}). Public key: /keys/docket-public.pem.`}
+          : `Credentials signed by AWS KMS (${[...data.credentials.values()][0]?.doc.signature.keyId ?? "key"}). Public key: /keys/docket-public.pem.`}{" "}
+        <a href="https://github.com/ashutosh887/docket">Code on GitHub</a> · <a href="https://youtu.be/ILI1JPPAMmU">Demo video</a>
       </footer>
     </>
   );
