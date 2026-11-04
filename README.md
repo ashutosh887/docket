@@ -2,7 +2,7 @@
 
 **When the exam board corrects its marking scheme, which students' grades are now wrong, and who fixes them?** Docket marks photos of handwritten exam scripts. A vision model transcribes what the student wrote, plain code checks it against the answer key and applies the official marking scheme, and a teacher decides anything two readers disagree on, through a Strands Graph interrupt. AWS KMS signs each result, and anyone can verify it in a browser with no account. When the scheme changes, one file landing in S3 re-marks every script, re-issues the grades that moved and revokes the old ones on a signed list.
 
-**[Live verify page](https://d37lfktm8wxh76.cloudfront.net)** · **[Demo video, under 3 minutes](YOUTUBE_URL)** · **[Builder Center project](PROJECT_URL)**
+**[Live verify page](https://d37lfktm8wxh76.cloudfront.net)** · **[Demo video, under 3 minutes](https://youtu.be/ILI1JPPAMmU)** · **[Builder Center project](PROJECT_URL)**
 
 Built for the AWS Builder Center hackathon Strands SDK: Workshop to Ship, Education focus area, by [@ashutosh887](https://github.com/ashutosh887). Release [`v1.0.0`](https://github.com/ashutosh887/docket/releases/tag/v1.0.0) is the code as submitted.
 
@@ -169,7 +169,7 @@ Docket does not claim students learn more. It claims marks you can check, correc
 6. Open the Appeals tab. 13.3.3 was upheld, 0 to 1 of 2, and `dkt_13.3.3_v2_1` now reads "Superseded: appeal upheld".
 7. Open the Moderation tab. It lists the 4 signed grades that differ from the official one.
 
-Or watch the [video](YOUTUBE_URL).
+Or watch the [video](https://youtu.be/ILI1JPPAMmU).
 
 ## Quickstart
 
