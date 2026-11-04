@@ -31,7 +31,9 @@ from docket.scheme import scheme_for
 
 CACHES = [ROOT / "out" / "cache", *sorted(p for p in (ROOT / "eval" / "runs").glob("*/out/cache") if p.parent.parent.name not in ("appeals", "trajectory"))]
 WORK = ROOT / "eval" / "runs" / "trajectory"
-RESULT = ROOT / "eval" / "results" / "trajectory.json"
+MUTANT = "--mutant" in sys.argv
+RESULT = ROOT / "eval" / "results" / ("trajectory_mutant.json" if MUTANT else "trajectory.json")
+MUTANT_RULE = "comparator.route replaced by a rule that sends every script straight to the signer, so no contested criterion reaches the teacher"
 READERS = ("reader_a", "reader_b")
 
 
@@ -138,6 +140,8 @@ def main() -> None:
             expected_environment_state=[EnvironmentState(name="decidedBy", state=decided), EnvironmentState(name="interrupted", state=route == "teacher")],
             metadata={"expectedRoute": route},
         ))
+    if MUTANT:
+        comparator.route = lambda calls: "signer"
     experiment = Experiment[dict, dict](cases=cases, evaluators=[FollowsRoutingRule(name="routing-rule"), StateEquals(name="decidedBy"), StateEquals(name="interrupted")])
     report = asyncio.run(experiment.run_evaluations_async(replay, max_workers=1))
     rows = defaultdict(dict)
@@ -157,6 +161,7 @@ def main() -> None:
         by_route[entry["expectedRoute"]]["cases"] += 1
         by_route[entry["expectedRoute"]]["pass"] += entry["pass"]
     summary = {
+        **({"mutant": MUTANT_RULE, "expected": "the eval should fail every case whose expected route is teacher"} if MUTANT else {}),
         "what": "Replays the Strands Graph on cached reader pairs (no model calls, signing stubbed) and checks the routing rule: agreed criteria go reader_a/reader_b -> comparator -> signer and are decided by code; any contested criterion pauses the Graph on a Strands interrupt at the teacher node (interrupt:teacher), resumes with the teacher's decision, then reaches the signer, and is decided by the teacher; an unread criterion goes to the signer, where the guard blocks it.",
         "library": "strands-agents-evals 1.8.0: Case, Experiment, EvaluationReport, StateEquals and exact_match_scorer. Its TrajectoryEvaluator needs an LLM judge (default Bedrock), so the trajectory check is a deterministic Evaluator subclass that applies the library's exact_match_scorer to the node trail.",
         "trajectorySource": "BeforeNodeCallEvent hook on the Graph, one entry per node call; the two readers run in parallel, so their order is normalised.",

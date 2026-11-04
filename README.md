@@ -44,7 +44,7 @@ Tasks 14, 17 and 19 have no keys. Their points rest on a proof or an argued exam
 | The same re-mark on AWS: `schemes/v2.json` into S3 → EventBridge → Step Functions Map → Lambda | SUCCEEDED in **3.6 s**: 9 re-marked, 2 re-issued, 7 unchanged, revocation list re-signed with 2 entries | Step Functions execution `4d4bdc28-f2bf-d83a-6c4a-23d880efb3ad_daa9eda0-...`, 15:10 IST |
 | Who can sign | KMS key policy denies `kms:Sign` to every principal but the Lambda role and the build role; a call from another IAM user returned `AccessDeniedException ... explicit deny in a resource-based policy` | CloudTrail event `9b18bfbd-76b5-49a4-902b-3cabf66dc11a` |
 | Every signature on record | CloudTrail event history: 12 `Sign` events for the AWS run, all by the Lambda role: 11 credentials and 1 revocation list | CloudTrail `LookupEvents` |
-| Strands trajectory eval ([strands-agents-evals](https://pypi.org/project/strands-agents-evals/) 1.8.0): 22 cached reader pairs replayed through the Graph, node trail checked against the routing rule | **22 of 22 follow the rule**: 13 agreed cases go readers, comparator, signer and are decided by code; 9 contested cases pause on the teacher interrupt first. 0 model calls | [`trajectory.json`](eval/results/trajectory.json) |
+| Strands trajectory eval ([strands-agents-evals](https://pypi.org/project/strands-agents-evals/) 1.8.0): 22 cached reader pairs replayed through the Graph, node trail checked against the routing rule | **22 of 22 follow the rule**: 13 agreed cases go readers, comparator, signer and are decided by code; 9 contested cases pause on the teacher interrupt first. With the routing rule broken to send every script to the signer, the same eval **fails all 9 contested cases** ([`trajectory_mutant.json`](eval/results/trajectory_mutant.json)). 0 model calls | [`trajectory.json`](eval/results/trajectory.json) |
 | Appeals on 2 scripts, cached readings, reader order swapped | 13.3.3 **upheld, 0 to 1 of 2**, new credential signed and the old one superseded; 13.5.1 reviewed, **1 of 2 unchanged**. Both appeal records KMS-signed. 0 model calls | [`examples/site-data/appeals/`](examples/site-data/appeals/) |
 | Blind check: reader B gets the request with the student's pages removed | The reader declined on 2 of 10 and **invented a student answer on 8**. Code now discards every reading made without a student page, so **10 of 10 are refused and 0 graded** (re-scored from the same cached readings, 0 model calls) | [`blind.json`](eval/results/blind.json) |
 
@@ -203,6 +203,7 @@ uv run python -m docket bump v2                      # re-marks every script, re
 uv run python -m docket appeal 13.3.3 --reason "..." # re-mark with the readers swapped, no model call
 uv run python -m docket blind --ids 13.1.1           # readers get no scan
 uv run python eval/trajectory_eval.py                # 22 of 22 cases follow the routing rule
+uv run python eval/trajectory_eval.py --mutant       # broken routing: fails the 9 teacher cases
 uv run pytest -q                                     # 7 decision tests
 ```
 
