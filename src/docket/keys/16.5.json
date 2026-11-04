@@ -1,0 +1,18 @@
+{
+  "variant": "16.5",
+  "task": 16,
+  "question": "Loan of S on 15 January for 39 months, debt grows r% on the 1st of each month; the debt on the 15th falls by the same amount each month to zero; total payments are 20% above S. Find r.",
+  "answer": "1",
+  "answer_unit": "%",
+  "accepted": [
+    "1"
+  ],
+  "criteria": {
+    "2": "Обоснованно получен верный ответ",
+    "1": "Верно построена математическая модель",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 16.5_solve_true.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key simulates the loan from the statement and solves for the asked quantity"
+}

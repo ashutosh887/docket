@@ -1,0 +1,19 @@
+{
+  "variant": "16.3",
+  "task": 16,
+  "question": "Loan of 800 thousand rubles in July 2026 for three years, debt grows 20% each January; the 2027 and 2028 payments are equal; repaid by July 2029; all payments total 1254.4 thousand. The 2027 payment?",
+  "answer": "200",
+  "answer_unit": "тыс. рублей",
+  "accepted": [
+    "200",
+    "200000"
+  ],
+  "criteria": {
+    "2": "Обоснованно получен верный ответ",
+    "1": "Верно построена математическая модель",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 16.3_solve_true.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key simulates the loan from the statement and solves for the asked quantity"
+}

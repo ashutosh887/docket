@@ -1,0 +1,37 @@
+{
+  "variant": "15.3",
+  "task": 15,
+  "inequality": "4/(3^x-27) >= 1/(3^x-9)",
+  "answer": {
+    "intervals": [
+      {
+        "low": "1",
+        "high": "2",
+        "low_closed": true,
+        "high_closed": false
+      },
+      {
+        "low": "3",
+        "high": "inf",
+        "low_closed": false,
+        "high_closed": false
+      }
+    ],
+    "points": []
+  },
+  "answer_written": "[1; 2); (3; +inf)",
+  "near": {
+    "exclude": [
+      "1"
+    ],
+    "include": []
+  },
+  "criteria": {
+    "2": "Обоснованно получен верный ответ",
+    "1": "Обоснованно получен ответ, отличающийся от верного исключением точки 1, ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом имеется верная последовательность всех шагов решения",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 15.3_solve_true.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key evaluates the inequality on a grid and at every endpoint and isolated point, and compares where it holds with the key's set"
+}

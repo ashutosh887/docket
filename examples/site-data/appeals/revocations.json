@@ -1,0 +1,28 @@
+{
+  "issuedAt": "2026-11-04T13:54:08Z",
+  "entries": [
+    {
+      "credentialId": "dkt_13.2.3_v1_1",
+      "status": "superseded",
+      "reason": "scheme v1 -> v2: total 1 -> 0. Demonstration amendment (not an FIPI change): on task 13, 1 point now requires that every step of both parts is correct with any wrong answer caused only by a computational error (K3); a correct part (a) next to a wrong root selection in part (b) no longer earns it.",
+      "replacedBy": "dkt_13.2.3_v2_1"
+    },
+    {
+      "credentialId": "dkt_13.3.3_v1_1",
+      "status": "superseded",
+      "reason": "scheme v1 -> v2: total 1 -> 0. Demonstration amendment (not an FIPI change): on task 13, 1 point now requires that every step of both parts is correct with any wrong answer caused only by a computational error (K3); a correct part (a) next to a wrong root selection in part (b) no longer earns it.",
+      "replacedBy": "dkt_13.3.3_v2_1"
+    },
+    {
+      "credentialId": "dkt_13.3.3_v2_1",
+      "status": "superseded",
+      "reason": "appeal upheld: student asks for a review of K3, the full solution sequence of both parts",
+      "replacedBy": "dkt_13.3.3_v2_2"
+    }
+  ],
+  "signature": {
+    "alg": "ECDSA_SHA_256",
+    "keyId": "arn:aws:kms:ap-south-1:960149837193:key/3e29a662-62e2-4526-aacf-28f7b0722921",
+    "value": "MEQCIH52jFhVDGZ32b3E8C+dXQxz+vr2H7o3cgbQR/cZh3bqAiBTOpUtBrB01pTZ0PCo4WE40likbX0vxB5ybadkxnuXOA=="
+  }
+}

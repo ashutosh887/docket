@@ -1,0 +1,67 @@
+{
+  "variant": "18.3",
+  "task": 18,
+  "system": "sqrt(3x^2 + 2ax + 1) = x^2 + ax + 1, exactly three distinct roots",
+  "solutions_wanted": 3,
+  "answer": {
+    "intervals": [
+      {
+        "low": "-2",
+        "high": "-1",
+        "low_closed": true,
+        "high_closed": false
+      },
+      {
+        "low": "-1",
+        "high": "1",
+        "low_closed": false,
+        "high_closed": false
+      },
+      {
+        "low": "1",
+        "high": "2",
+        "low_closed": false,
+        "high_closed": true
+      }
+    ],
+    "points": []
+  },
+  "answer_written": "-2 <= a < -1; -1 < a < 1; 1 < a <= 2",
+  "near": {
+    "include": [],
+    "exclude": [
+      "-2",
+      "2"
+    ]
+  },
+  "two_point_sets": [
+    {
+      "base": {
+        "intervals": [
+          {
+            "low": "-2",
+            "high": "2",
+            "low_closed": false,
+            "high_closed": false
+          }
+        ],
+        "points": []
+      },
+      "include": [
+        "-2",
+        "2"
+      ],
+      "exclude": []
+    }
+  ],
+  "criteria": {
+    "4": "Обоснованно получен верный ответ",
+    "3": "С помощью верного рассуждения получено множество значений a, отличающееся от искомого только исключением точек a = −2 и/или a = 2",
+    "2": "С помощью верного рассуждения получен промежуток (–2; 2) множества значений a, возможно, с включением граничных точек ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом верно выполнены все шаги решения",
+    "1": "Получены корни уравнения 3x^2 + 2ax + 1 = (x^2 + ax + 1)^2: x = 0, x = 1 − a, x = −1 − a и задача верно сведена к исследованию полученных корней при условии x^2 + ax + 1 > 0 (x^2 + ax + 1 ≥ 0)",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 18.3_solve_true.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key counts the distinct solutions exactly for every a on a grid and at every boundary value, and compares where the count is the wanted one with the key's set"
+}

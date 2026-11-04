@@ -1,0 +1,61 @@
+{
+  "variant": "18.1",
+  "task": 18,
+  "system": "y = |x-a| - 4, 4|y| + x^2 + 8x = 0",
+  "solutions_wanted": 4,
+  "answer": {
+    "intervals": [
+      {
+        "low": "-5",
+        "high": "-4",
+        "low_closed": false,
+        "high_closed": false
+      },
+      {
+        "low": "-4",
+        "high": "-3",
+        "low_closed": false,
+        "high_closed": false
+      }
+    ],
+    "points": []
+  },
+  "answer_written": "-5 < a < -4; -4 < a < -3",
+  "near": {
+    "include": [
+      "-5",
+      "-3"
+    ],
+    "exclude": []
+  },
+  "two_point_sets": [
+    {
+      "base": {
+        "intervals": [
+          {
+            "low": "-5",
+            "high": "-3",
+            "low_closed": false,
+            "high_closed": false
+          }
+        ],
+        "points": []
+      },
+      "include": [
+        "-5",
+        "-3"
+      ],
+      "exclude": []
+    }
+  ],
+  "criteria": {
+    "4": "Обоснованно получен верный ответ",
+    "3": "С помощью верного рассуждения получено множество значений a, отличающееся от искомого только включением точек a = −5 и / или a = −3",
+    "2": "С помощью верного рассуждения получен промежуток (−5; −3) множества значений a, возможно, с включением граничных точек ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом верно выполнены все шаги решения",
+    "1": "Задача верно сведена к исследованию взаимного расположения дуг парабол и лучей (аналитически или графически)",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 18.1_solve_true_part_1.png to part_3.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key counts the distinct solutions exactly for every a on a grid and at every boundary value, and compares where the count is the wanted one with the key's set"
+}

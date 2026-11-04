@@ -1,4 +1,5 @@
 import argparse
+import os
 import asyncio
 import time
 
@@ -27,10 +28,13 @@ async def main():
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--version", default="v1")
     parser.add_argument("--concurrency", type=int, default=3)
+    parser.add_argument("--only-reader", choices=["a", "b"], default=None)
     args = parser.parse_args()
     use_cache_for("core")
     scripts = slice_scripts(args.slice, args.limit)
     readers = {"a": config.reader_a(), "b": config.reader_b()}
+    if args.only_reader:
+        readers = {args.only_reader: readers[args.only_reader]}
     started = now_iso()
     gate = asyncio.Semaphore(args.concurrency)
     done = {"n": 0}
@@ -52,7 +56,7 @@ async def main():
             for side, out in await asyncio.gather(*(side_call(script, scheme, side, spec) for side, spec in readers.items())):
                 row[side] = out
         done["n"] += 1
-        print(f"{ist()} blind {done['n']}/{len(scripts)} {script.script_id} a={row['a'].get('declined', 'err')} b={row['b'].get('declined', 'err')}", flush=True)
+        print(f"{ist()} blind {done['n']}/{len(scripts)} {script.script_id} " + " ".join(f"{k}={row[k].get('declined', 'err')}" for k in readers), flush=True)
         return row
 
     rows = await asyncio.gather(*(one(s) for s in scripts))
@@ -73,6 +77,7 @@ async def main():
         "schemeVersion": args.version,
         "method": "each reader gets the grading request with the student's pages removed (the reference statement and solution stay); a pass is a reading that declines (declined true or student_work_visible false) and scores 0 points by the scheme",
         "readers": readers,
+        "design": os.environ.get("DOCKET_DESIGN", "2"),
         "startedAt": started,
         "finishedAt": now_iso(),
         "total": total,

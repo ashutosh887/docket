@@ -4,7 +4,7 @@ import json
 import os
 import time
 
-from common import RUNS, ist, now_iso, slice_scripts, tokens_of, use_cache_for, with_outer_retry
+from common import DAILY_CAP, RUNS, ist, now_iso, slice_scripts, tokens_of, use_cache_for, with_outer_retry
 from docket import config
 from docket import readers as readers_module
 from docket.readers import read_script
@@ -53,8 +53,13 @@ async def mark(script, scheme, readers, failures=None):
         else:
             records[side] = result
             entry[key] = reader_entry(result, scheme, spec)
+    for side, key in (("a", "readerA"), ("b", "readerB")):
+        if key not in entry:
+            entry[key] = {"model": None, "notRun": True}
     if len(records) == 2:
         entry["docket"] = route_script(records["a"], records["b"], scheme)
+    elif len(records) == 1 and len(readers) == 1:
+        entry["docket"] = {"route": "single-reader"}
     else:
         entry["docket"] = {"route": "error"}
     entry["seconds"] = round(time.monotonic() - t0, 1)
@@ -67,9 +72,11 @@ def estimate(scripts, tpm, tokens_per_call, runs):
     return round(minutes / 60, 1)
 
 
-async def run(run_id, scripts, version, slice_name, resume, concurrency):
+async def run(run_id, scripts, version, slice_name, resume, concurrency, only_reader=None):
     cache = use_cache_for(run_id)
     readers = {"a": config.reader_a(), "b": config.reader_b()}
+    if only_reader:
+        readers = {only_reader: readers[only_reader]}
     folder = RUNS / run_id
     folder.mkdir(parents=True, exist_ok=True)
     meta_path = folder / "_meta.json"
@@ -106,26 +113,33 @@ async def run(run_id, scripts, version, slice_name, resume, concurrency):
 
     async def one(script):
         async with gate:
+            if DAILY_CAP:
+                return
             scheme = scheme_for(script.task, version)
             entry = await mark(script, scheme, readers, failures=folder / "_failures.jsonl")
+        if DAILY_CAP and any("daily cap" in (entry[k].get("error") or "") or "perday" in (entry[k].get("error") or "").lower().replace(" ", "") for k in ("readerA", "readerB")):
+            print(f"{ist()} {run_id} {script.script_id} stopped on the daily cap: {DAILY_CAP[0][:300]}", flush=True)
+            return
         entry["runId"] = run_id
         entry["markedAt"] = now_iso()
         (folder / f"{script.script_id}.json").write_text(json.dumps(entry, indent=1, ensure_ascii=False))
         progress["done"] += 1
         elapsed = time.monotonic() - t_start
         left = (len(todo) - progress["done"]) * elapsed / progress["done"]
-        a = entry["readerA"].get("total", "err")
-        b = entry["readerB"].get("total", "err")
+        a = entry["readerA"].get("total", "-" if entry["readerA"].get("notRun") else "err")
+        b = entry["readerB"].get("total", "-" if entry["readerB"].get("notRun") else "err")
         print(f"{ist()} {run_id} {progress['done']}/{len(todo)} {script.script_id} official={script.official_score} a={a} b={b} route={entry['docket']['route']} {entry['seconds']}s, about {left / 60:.0f} min left", flush=True)
 
     await asyncio.gather(*(one(s) for s in todo))
+    if DAILY_CAP:
+        meta["dailyCap"] = DAILY_CAP[0]
     meta["finishedAt"] = now_iso()
     meta_path.write_text(json.dumps(meta, indent=2))
 
 
 async def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--slice", default="full", choices=["full", "seeded61", "seeded21", "task13", "task13s61"])
+    parser.add_argument("--slice", default="full", choices=["full", "seeded61", "seeded21", "task13", "task13s61", "keyed61", "keyed21"])
     parser.add_argument("--runs", nargs="+", default=["r1", "r2", "r3"])
     parser.add_argument("--version", default="v1")
     parser.add_argument("--limit", type=int, default=0)
@@ -134,6 +148,7 @@ async def main():
     parser.add_argument("--estimate-only", action="store_true")
     parser.add_argument("--concurrency", type=int, default=4)
     parser.add_argument("--only", nargs="*", default=[])
+    parser.add_argument("--only-reader", choices=["a", "b"], default=None)
     parser.add_argument("--fresh", action="store_true")
     args = parser.parse_args()
     scripts = slice_scripts(args.slice, args.limit)
@@ -145,7 +160,7 @@ async def main():
     if args.estimate_only:
         return
     for run_id in args.runs:
-        await run(run_id, scripts, args.version, args.slice, resume=not args.fresh, concurrency=args.concurrency)
+        await run(run_id, scripts, args.version, args.slice, resume=not args.fresh, concurrency=args.concurrency, only_reader=args.only_reader)
 
 
 if __name__ == "__main__":

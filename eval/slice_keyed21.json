@@ -1,0 +1,24 @@
+{
+  "seed": 20261104,
+  "size": 9,
+  "variant": "without_answer",
+  "mode": "with_true_solution",
+  "subsetOf": "slice_seeded21.json",
+  "tasks": [
+    15,
+    16,
+    18
+  ],
+  "rule": "every script of the parent slice whose task is 15, 16 or 18 (the tasks with code answer keys, Amendment 7)",
+  "scriptIds": [
+    "15.1.2",
+    "15.1.4",
+    "15.3.3",
+    "16.2.3",
+    "16.4.1",
+    "16.5.2",
+    "18.2.1",
+    "18.3.1",
+    "18.4.2"
+  ]
+}

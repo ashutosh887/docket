@@ -15,8 +15,20 @@ ALG = "ECDSA_SHA_256"
 PUBLIC_PEM = Path(__file__).with_name("docket-public.pem")
 
 
+def whole_numbers(value):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    if isinstance(value, dict):
+        return {k: whole_numbers(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [whole_numbers(v) for v in value]
+    return value
+
+
 def canonical(document: dict) -> bytes:
-    body = {k: v for k, v in document.items() if k != "signature"}
+    body = whole_numbers({k: v for k, v in document.items() if k != "signature"})
     return json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 

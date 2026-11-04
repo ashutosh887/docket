@@ -92,6 +92,13 @@ def _publish(event: dict) -> dict:
     return {"revocationsKey": store.where(store.REVOCATIONS), "entries": len(document["entries"]), "reissued": sum(o.get("status") == "reissued" for o in event["outcomes"])}
 
 
+def _appeal(event: dict) -> dict:
+    from docket.appeals import appeal
+
+    result = asyncio.run(appeal(event["scriptId"], event["reason"], event.get("criteria")))
+    return {k: result.get(k) for k in ("appealId", "scriptId", "appealed", "outcome", "decision", "oldTotal", "newTotal", "max", "standingCredential", "key", "blocked")}
+
+
 def _verify(event: dict) -> dict:
     from docket.revocations import status_of
 
@@ -101,7 +108,7 @@ def _verify(event: dict) -> dict:
     return {"credentialId": credential.get("credentialId"), **status_of(credential)}
 
 
-ACTIONS = {"mark": _mark, "teacher": _teacher, "bump": _bump, "remark": _remark, "publish-revocations": _publish, "verify": _verify}
+ACTIONS = {"mark": _mark, "teacher": _teacher, "bump": _bump, "remark": _remark, "publish-revocations": _publish, "verify": _verify, "appeal": _appeal}
 
 
 def handler(event: dict, context=None) -> dict:

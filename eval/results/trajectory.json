@@ -1,0 +1,678 @@
+{
+  "what": "Replays the Strands Graph on cached reader pairs (no model calls, signing stubbed) and checks the routing rule: agreed criteria go reader_a/reader_b -> comparator -> signer and are decided by code; any contested criterion pauses the Graph on a Strands interrupt at the teacher node (interrupt:teacher), resumes with the teacher's decision, then reaches the signer, and is decided by the teacher; an unread criterion goes to the signer, where the guard blocks it.",
+  "library": "strands-agents-evals 1.8.0: Case, Experiment, EvaluationReport, StateEquals and exact_match_scorer. Its TrajectoryEvaluator needs an LLM judge (default Bedrock), so the trajectory check is a deterministic Evaluator subclass that applies the library's exact_match_scorer to the node trail.",
+  "trajectorySource": "BeforeNodeCallEvent hook on the Graph, one entry per node call; the two readers run in parallel, so their order is normalised.",
+  "teacher": "official CHECK-MAT expert grade stands in for the teacher, as in the rest of the repo",
+  "caches": [
+    "out/cache"
+  ],
+  "cases": 22,
+  "scripts": 14,
+  "distinctReadingPairs": "each case is a distinct pair of cached reading files; copies of the same cache in other run folders are counted once",
+  "readerPairs": {
+    "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite": 10,
+    "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview": 12
+  },
+  "pass": 22,
+  "byExpectedRoute": {
+    "teacher": {
+      "cases": 9,
+      "pass": 9
+    },
+    "signer": {
+      "cases": 13,
+      "pass": 13
+    }
+  },
+  "byEvaluator": {
+    "routing-rule": 22,
+    "decidedBy": 22,
+    "interrupted": 22
+  },
+  "modelCalls": 0,
+  "results": [
+    {
+      "name": "out/cache:13.6.2:13cedff39bc4:822a84dd",
+      "scriptId": "13.6.2",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K1": 0,
+          "K2": 0,
+          "K3": 0
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.3.3:13cedff39bc4:62fc1dbf",
+      "scriptId": "13.3.3",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K3": 0
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.3.3:13cedff39bc4:030d573d",
+      "scriptId": "13.3.3",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.5.1:13cedff39bc4:050ef60f",
+      "scriptId": "13.5.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K1": 0,
+          "K3": 1
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.5.1:13cedff39bc4:90e7feb2",
+      "scriptId": "13.5.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K2": 0
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.6.1:13cedff39bc4:11473069",
+      "scriptId": "13.6.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K1": 0,
+          "K2": 0,
+          "K3": 1
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.6.1:13cedff39bc4:a99418e4",
+      "scriptId": "13.6.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K1": 0,
+          "K2": 0,
+          "K3": 1
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.2.2:13cedff39bc4:1193b9f5",
+      "scriptId": "13.2.2",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.1.4:13cedff39bc4:1c5513f3",
+      "scriptId": "13.1.4",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.1.4:13cedff39bc4:7dc80b0a",
+      "scriptId": "13.1.4",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.3.1:13cedff39bc4:22389571",
+      "scriptId": "13.3.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.1.1:13cedff39bc4:29919901",
+      "scriptId": "13.1.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.1.1:13cedff39bc4:cfbef97a",
+      "scriptId": "13.1.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.2.1:13cedff39bc4:379f9b9b",
+      "scriptId": "13.2.1",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.2.3:13cedff39bc4:45f19134",
+      "scriptId": "13.2.3",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.2.3:13cedff39bc4:5468bf33",
+      "scriptId": "13.2.3",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K2": 0,
+          "K3": 0
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.1.3:13cedff39bc4:4e157015",
+      "scriptId": "13.1.3",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K2": 0
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.5.2:13cedff39bc4:9dd7109e",
+      "scriptId": "13.5.2",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.5.2:13cedff39bc4:aaf2665b",
+      "scriptId": "13.5.2",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.6.3:13cedff39bc4:9800ae1c",
+      "scriptId": "13.6.3",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.3.4:13cedff39bc4:adde1a47",
+      "scriptId": "13.3.4",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3-flash-preview",
+      "expectedRoute": "teacher",
+      "output": {
+        "route": "teacher",
+        "signed": true,
+        "blocked": null,
+        "teacher": {
+          "K2": 0,
+          "K3": 0
+        },
+        "interrupted": true
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> interrupt:teacher -> teacher -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    },
+    {
+      "name": "out/cache:13.3.4:13cedff39bc4:c93b288a",
+      "scriptId": "13.3.4",
+      "cache": "out/cache",
+      "design": 1,
+      "readers": "groq:qwen/qwen3.8-27b + gemini:gemini-3.5-flash-lite",
+      "expectedRoute": "signer",
+      "output": {
+        "route": "signer",
+        "signed": true,
+        "blocked": null,
+        "teacher": {},
+        "interrupted": false
+      },
+      "routing-rule": {
+        "pass": true,
+        "reason": "reader_a -> reader_b -> comparator -> signer"
+      },
+      "decidedBy": {
+        "pass": true,
+        "reason": "state 'decidedBy' matches expected value"
+      },
+      "interrupted": {
+        "pass": true,
+        "reason": "state 'interrupted' matches expected value"
+      },
+      "pass": true
+    }
+  ]
+}

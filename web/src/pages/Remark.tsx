@@ -69,10 +69,12 @@ function StepView({ data, step }: { data: SiteData; step: Step }) {
         </h3>
       </header>
       <div className="stats">
-        <div>
-          <b>{changed.length}</b>
-          <span>{declared.length ? "criteria changed" : "criteria moved a grade"}</span>
-        </div>
+        {changed.length > 0 && (
+          <div>
+            <b>{changed.length}</b>
+            <span>{declared.length ? "criteria changed" : "criteria moved a grade"}</span>
+          </div>
+        )}
         <div>
           <b>{rows.length}</b>
           <span>scripts re-marked</span>
@@ -82,10 +84,10 @@ function StepView({ data, step }: { data: SiteData; step: Step }) {
           <span>grades changed</span>
         </div>
         <div>
-          <b>
-            {listSize - added} → {listSize}
-          </b>
-          <span>revocation list entries</span>
+          <b>{added}</b>
+          <span>
+            added to the revocation list ({listSize} {listSize === 1 ? "entry" : "entries"} now)
+          </span>
         </div>
       </div>
       {note && <p>{note}</p>}

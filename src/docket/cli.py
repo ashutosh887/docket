@@ -69,10 +69,35 @@ def cmd_bump(args) -> None:
         print(f"  {o['scriptId']}: {o['status']} {o.get('oldTotal')} -> {o.get('newTotal')} {o.get('new') or ''}")
 
 
+def cmd_appeal(args) -> None:
+    from docket.appeals import appeal
+
+    result = asyncio.run(appeal(args.script_id, args.reason, args.criterion or None))
+    if result["outcome"] == "not decided":
+        show(result)
+        sys.exit(1)
+    print(f"{result['appealId']} on {result['appealed']}: {result['decision']}")
+    print(f"total {result['oldTotal']} -> {result['newTotal']}/{result['max']}, readers swapped to {result['readers']['a']} first, same calls after the swap: {result['swapCheck']['sameCalls']}")
+    print(f"teacher decided {result['teacher']['decisions']}; standing credential {result['standingCredential']}")
+    print(f"signed appeal record {result['key']}")
+
+
+def cmd_export_appeals(args) -> None:
+    from docket.appeals import export_appeals
+
+    for path in export_appeals(args.target):
+        print(path)
+
+
 def cmd_verify(args) -> None:
     from docket.revocations import status_of
+    from docket.signing import verify
 
     credential = json.loads(Path(args.credential).read_text())
+    if "appealId" in credential:
+        valid = verify(credential)
+        show({"appealId": credential["appealId"], "signature": "valid" if valid else "invalid", "outcome": credential.get("outcome"), "decision": credential.get("decision"), "standingCredential": credential.get("standingCredential")})
+        sys.exit(0 if valid else 1)
     revocations = json.loads(Path(args.revocations).read_text()) if args.revocations else None
     result = status_of(credential, revocations)
     show({"credentialId": credential.get("credentialId"), **result})
@@ -179,6 +204,16 @@ def main(argv: list[str] | None = None) -> None:
     p.add_argument("credential_id")
     p.add_argument("--reason", required=True)
     p.set_defaults(func=cmd_revoke)
+
+    p = sub.add_parser("appeal", help="re-mark a script from its cached readings with the readers swapped; the teacher reviews the appealed criteria")
+    p.add_argument("script_id")
+    p.add_argument("--reason", required=True)
+    p.add_argument("--criterion", action="append", default=[], help="an appealed criterion; default is every criterion")
+    p.set_defaults(func=cmd_appeal)
+
+    p = sub.add_parser("export-appeals", help="copy signed appeal records, their credentials and the revocation list for the hosted page")
+    p.add_argument("--target", default="examples/site-data/appeals")
+    p.set_defaults(func=cmd_export_appeals)
 
     p = sub.add_parser("pending", help="list scripts waiting for a teacher decision")
     p.set_defaults(func=cmd_pending)

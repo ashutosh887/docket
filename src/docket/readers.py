@@ -39,7 +39,7 @@ class ScriptReading(BaseModel):
     criteria: list[CriterionReading]
 
 
-PROMPT_VERSION_V2 = "t1"
+PROMPT_VERSION_V2 = "t2"
 
 SYSTEM_PROMPT_V2 = """You are one of two independent transcribers of a handwritten exam script. You copy what the student wrote; you never judge whether it is right.
 The script is a Russian Unified State Exam (EGE) profile mathematics answer to a trigonometric equation task: part (a) solve the equation, part (b) list the roots in a given interval. The first image(s) are the student's handwritten work, in order. The last image, when labelled REFERENCE, is the official statement and solution; it is not the student's work and you must never copy from it.
@@ -88,6 +88,109 @@ class ScriptTranscript(BaseModel):
     computational_slip_only: bool
 
 
+COMMON_V2 = """You are one of two independent transcribers of a handwritten exam script. You copy what the student wrote; you never judge whether it is right.
+The script is a Russian Unified State Exam (EGE) profile mathematics answer. The images are the student's handwritten work, in order.
+"""
+
+SET_RULES = """- present: true if the student wrote a final answer (usually after "Ответ", or the last line of the solution).
+- legible: false if you cannot read the student's final answer.
+- written: the student's final answer exactly as written, in plain text.
+- step: the student's line where that answer is reached, transcribed.
+- intervals: each interval of the final answer, with low and high as numbers: "-inf" and "inf" for infinity, fractions such as "1/64" or "-7/4", decimals with a point. low_closed and high_closed are true for a square bracket or for <= and >=. "(2; +inf)" is low "2", high "inf", both open; "1 <= x < 2" is low "1" closed, high "2" open.
+- points: each single number the answer lists on its own, such as "1" in "1; (2; +inf)" or "-13" in "a = -13; -9 <= a < 3".
+- An endpoint that is not a plain number (a logarithm, a root) is written as the student wrote it, for example "log_2 3".
+Copy the student's answer even if it looks wrong.
+"""
+
+DECLINE_V2 = """If no student handwriting is visible, or you were given only the question, set student_work_visible false and declined true with the reason, and set present false."""
+
+SYSTEM_PROMPT_15 = COMMON_V2 + """The task (task 15) is an inequality; the answer is a set of values of x.
+Report the student's final answer:
+""" + SET_RULES + """- work_shown: true if the student wrote out the derivation that leads to that answer (the domain, the transformations, the method of intervals or a substitution).
+Also report computational_slip_only: true only if the student's method is complete and a wrong answer comes only from an arithmetic slip; false otherwise, and false when the answer looks right.
+""" + DECLINE_V2
+
+SYSTEM_PROMPT_18 = COMMON_V2 + """The task (task 18) is a problem with a parameter a; the answer is the set of values of a.
+Report the student's final answer:
+""" + SET_RULES + """- work_shown: true if the student wrote out the reasoning that leads to that set (an analytic study of the roots or a graph of the curves with the cases worked through).
+Also report:
+- computational_slip_only: true only if every step of the student's solution is right and a wrong answer comes only from an arithmetic slip; false otherwise, and false when the answer looks right.
+- reduced_to_study: true if the student's work reduces the problem to a study of the roots, or of how the graphs (lines, rays, arcs) meet, analytically or graphically, whether or not the final set is right.
+""" + DECLINE_V2
+
+SYSTEM_PROMPT_16 = COMMON_V2 + """The task (task 16) is a word problem about a loan or a deposit; the answer is one number.
+Report the student's final answer (usually after "Ответ", or the last line of the solution):
+- present: true if the student wrote a final answer.
+- legible: false if you cannot read it.
+- written: the student's final answer exactly as written, in plain text.
+- step: the student's line where that answer is reached, transcribed.
+- value: the number of the final answer, digits only, with a decimal point and no spaces: "1 254,4" is "1254.4".
+- unit: the unit words the student writes with that number, for example "тыс. руб.", "рублей", "%", or "" when there are none.
+- work_shown: true if the student wrote out the derivation that leads to that number.
+Also report model_built: true if the student writes a complete mathematical model of the problem (the debt and the payment for every period, or a full system of equations or inequalities for its conditions) and shows how it is built, whether or not the final number is right; false for a single equation or inequality with no account of how it follows from the conditions.
+""" + DECLINE_V2
+
+
+class Interval(BaseModel):
+    low: str = Field(description="Lower end: a number such as -7/4, or -inf")
+    high: str = Field(description="Upper end: a number such as 31, or inf")
+    low_closed: bool
+    high_closed: bool
+
+
+class SetAnswer(BaseModel):
+    present: bool
+    legible: bool
+    written: str
+    step: str
+    work_shown: bool
+    intervals: list[Interval]
+    points: list[str] = Field(description="Single numbers the answer lists on their own")
+
+
+class InequalityTranscript(BaseModel):
+    student_work_visible: bool
+    declined: bool
+    decline_reason: str | None = None
+    answer: SetAnswer
+    computational_slip_only: bool
+
+
+class ParameterTranscript(BaseModel):
+    student_work_visible: bool
+    declined: bool
+    decline_reason: str | None = None
+    answer: SetAnswer
+    computational_slip_only: bool
+    reduced_to_study: bool
+
+
+class NumberAnswer(BaseModel):
+    present: bool
+    legible: bool
+    written: str
+    step: str
+    value: str = Field(description="The final number, digits and a decimal point only")
+    unit: str = Field(description="The unit words written with the number, or empty")
+    work_shown: bool
+
+
+class NumberTranscript(BaseModel):
+    student_work_visible: bool
+    declined: bool
+    decline_reason: str | None = None
+    answer: NumberAnswer
+    model_built: bool
+
+
+TRANSCRIBERS = {
+    13: (PROMPT_VERSION_V2, SYSTEM_PROMPT_V2, ScriptTranscript, "Task 13. Transcribe the student's final answers to parts (a) and (b)."),
+    15: ("s1", SYSTEM_PROMPT_15, InequalityTranscript, "Task 15. Transcribe the student's final answer to the inequality."),
+    16: ("n1", SYSTEM_PROMPT_16, NumberTranscript, "Task 16. Transcribe the student's final answer to the word problem."),
+    18: ("p1", SYSTEM_PROMPT_18, ParameterTranscript, "Task 18. Transcribe the student's final set of values of the parameter a."),
+}
+
+
 def design_for(script: Script) -> int:
     from docket.answers import key_for, variant_of
 
@@ -105,7 +208,8 @@ def criteria_prompt(scheme: Scheme) -> str:
 
 def prompt_version(scheme: Scheme, design: int = 1) -> str:
     if design == 2:
-        material = json.dumps([PROMPT_VERSION_V2, SYSTEM_PROMPT_V2, ScriptTranscript.model_json_schema()])
+        version, prompt, model, _ = TRANSCRIBERS[scheme.task]
+        material = json.dumps([version, prompt, model.model_json_schema()])
         return "d2-" + hashlib.sha256(material.encode()).hexdigest()[:12]
     material = json.dumps([PROMPT_VERSION, SYSTEM_PROMPT, [(c.id, c.text) for c in scheme.criteria], scheme.official])
     return hashlib.sha256(material.encode()).hexdigest()[:12]
@@ -120,7 +224,7 @@ def settings_tag(spec: str) -> str:
     return f"@{tag}" if tag else ""
 
 
-def build_model(spec: str):
+def build_model(spec: str, design: int = 1):
     provider, model_id = spec.split(":", 1)
     if provider == "groq":
         from strands.models.openai import OpenAIModel
@@ -128,7 +232,17 @@ def build_model(spec: str):
         return OpenAIModel(
             client_args={"api_key": os.environ["GROQ_API_KEY"], "base_url": "https://api.groq.com/openai/v1", "timeout": 300, "max_retries": 0},
             model_id=model_id,
-            params={"temperature": 0, "max_completion_tokens": 3000},
+            params={"temperature": 0, "max_completion_tokens": 3000 if design == 1 else 800},
+        )
+    if provider in ("mistral", "nvidia"):
+        from strands.models.openai import OpenAIModel
+
+        bases = {"mistral": ("MISTRAL_API_KEY", "https://api.mistral.ai/v1"), "nvidia": ("NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1")}
+        env, base = bases[provider]
+        return OpenAIModel(
+            client_args={"api_key": os.environ[env], "base_url": base, "timeout": 300, "max_retries": 0},
+            model_id=model_id,
+            params={"temperature": 0, "max_tokens": 3000 if design == 1 else 800},
         )
     if provider == "openrouter":
         from strands.models.openai import OpenAIModel
@@ -162,7 +276,7 @@ def image_block(path: Path) -> dict:
 
 
 def content_for(script: Script, scheme: Scheme, blind: bool = False, reference: bool = True, design: int = 1) -> list[dict]:
-    blocks: list[dict] = [{"text": criteria_prompt(scheme) if design == 1 else f"Task {scheme.task}. Transcribe the student's final answers to parts (a) and (b)."}]
+    blocks: list[dict] = [{"text": criteria_prompt(scheme) if design == 1 else TRANSCRIBERS[scheme.task][3]}]
     if not blind:
         for index, path in enumerate(script.images, 1):
             blocks.append({"text": f"STUDENT WORK, page {index} of {len(script.images)}:"})
@@ -189,8 +303,14 @@ def too_large(error: Exception) -> bool:
     return "413" in text or "request too large" in text
 
 
+def daily_cap(error: Exception) -> bool:
+    return "perday" in str(error).lower().replace(" ", "")
+
+
 def retryable(error: Exception) -> bool:
     text = f"{type(error).__name__} {error}".lower()
+    if daily_cap(error):
+        return False
     return any(marker in text for marker in RETRYABLE)
 
 
@@ -231,14 +351,14 @@ async def read_script(script: Script, spec: str, scheme: Scheme, blind: bool = F
         cached["cached"] = True
         return with_reading(cached, script, scheme)
     last: Exception | None = None
-    with_reference = True
+    with_reference = design == 1
     for attempt in range(attempts):
         started = time.monotonic()
         try:
             async with provider_limit(spec):
                 started = time.monotonic()
-                agent = Agent(model=build_model(spec), system_prompt=SYSTEM_PROMPT if design == 1 else SYSTEM_PROMPT_V2, callback_handler=None)
-                result = await agent.invoke_async(content_for(script, scheme, blind, with_reference, design), structured_output_model=ScriptReading if design == 1 else ScriptTranscript)
+                agent = Agent(model=build_model(spec, design), system_prompt=SYSTEM_PROMPT if design == 1 else TRANSCRIBERS[scheme.task][1], callback_handler=None)
+                result = await agent.invoke_async(content_for(script, scheme, blind, with_reference, design), structured_output_model=ScriptReading if design == 1 else TRANSCRIBERS[scheme.task][2])
             output = _normalise(result.structured_output, scheme) if design == 1 else result.structured_output
             record = {
                 "key": key,

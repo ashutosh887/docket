@@ -95,6 +95,7 @@ def test_sign_verify_and_tamper_fails(fake_kms):
 
 def test_canonical_bytes_are_sorted_compact_utf8():
     assert signing.canonical({"b": 1, "a": "й", "signature": {"x": 1}}) == '{"a":"й","b":1}'.encode("utf-8")
+    assert signing.canonical({"margin": 1.0, "c": [0.5, 2.0], "ok": True}) == b'{"c":[0.5,2],"margin":1,"ok":true}'
 
 
 def test_affected_set_on_bump():

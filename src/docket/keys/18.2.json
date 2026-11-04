@@ -1,0 +1,60 @@
+{
+  "variant": "18.2",
+  "task": 18,
+  "system": "(x^2 - 5x - y + 3) * sqrt(x - y + 3) = 0, y = 3x + a",
+  "solutions_wanted": 2,
+  "answer": {
+    "intervals": [
+      {
+        "low": "-9",
+        "high": "3",
+        "low_closed": true,
+        "high_closed": false
+      }
+    ],
+    "points": [
+      "-13"
+    ]
+  },
+  "answer_written": "a = -13; -9 <= a < 3",
+  "near": {
+    "include": [
+      "-9",
+      "3"
+    ],
+    "exclude": [
+      "-9",
+      "3"
+    ]
+  },
+  "two_point_sets": [
+    {
+      "base": {
+        "intervals": [
+          {
+            "low": "-9",
+            "high": "3",
+            "low_closed": false,
+            "high_closed": false
+          }
+        ],
+        "points": []
+      },
+      "include": [
+        "-9",
+        "3"
+      ],
+      "exclude": []
+    }
+  ],
+  "criteria": {
+    "4": "Обоснованно получен верный ответ",
+    "3": "С помощью верного рассуждения получено множество значений a, отличающееся от искомого только исключением / включением точек a = −9 и / или a = 3",
+    "2": "С помощью верного рассуждения получен промежуток (−9; 3) множества значений a, возможно, с включением граничных точек ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом верно выполнены все шаги решения",
+    "1": "Задача верно сведена к исследованию взаимного расположения параболы и прямых (аналитически или графически)",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 18.2_solve_true_part_1.png and part_2.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key counts the distinct solutions exactly for every a on a grid and at every boundary value, and compares where the count is the wanted one with the key's set"
+}

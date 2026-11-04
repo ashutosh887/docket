@@ -1,0 +1,39 @@
+{
+  "variant": "15.5",
+  "task": 15,
+  "inequality": "log_4(64x)/(log_4 x - 3) + (log_4 x - 3)/log_4(64x) >= (log_4 x^4 + 16)/((log_4 x)^2 - 9)",
+  "answer": {
+    "intervals": [
+      {
+        "low": "0",
+        "high": "1/64",
+        "low_closed": false,
+        "high_closed": false
+      },
+      {
+        "low": "64",
+        "high": "inf",
+        "low_closed": false,
+        "high_closed": false
+      }
+    ],
+    "points": [
+      "4"
+    ]
+  },
+  "answer_written": "(0; 1/64); 4; (64; +inf)",
+  "near": {
+    "exclude": [
+      "4"
+    ],
+    "include": []
+  },
+  "criteria": {
+    "2": "Обоснованно получен верный ответ",
+    "1": "Обоснованно получен ответ, отличающийся от верного исключением точки 4, ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом имеется верная последовательность всех шагов решения",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 15.5_solve_true.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key evaluates the inequality on a grid and at every endpoint and isolated point, and compares where it holds with the key's set"
+}

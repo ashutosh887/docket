@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-11-04T13:54:20Z",
+  "appeals": [
+    {
+      "appealId": "apl_13.3.3_1",
+      "scriptId": "13.3.3",
+      "appealed": "dkt_13.3.3_v2_1",
+      "standingCredential": "dkt_13.3.3_v2_2",
+      "outcome": "upheld",
+      "decision": "appeal upheld: student asks for a review of K3, the full solution sequence of both parts",
+      "oldTotal": 0,
+      "newTotal": 1,
+      "max": 2
+    },
+    {
+      "appealId": "apl_13.5.1_1",
+      "scriptId": "13.5.1",
+      "appealed": "dkt_13.5.1_v1_1",
+      "standingCredential": "dkt_13.5.1_v1_1",
+      "outcome": "unchanged",
+      "decision": "appeal reviewed, grade unchanged",
+      "oldTotal": 1,
+      "newTotal": 1,
+      "max": 2
+    }
+  ]
+}

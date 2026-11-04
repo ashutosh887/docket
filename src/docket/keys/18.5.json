@@ -1,0 +1,78 @@
+{
+  "variant": "18.5",
+  "task": 18,
+  "system": "(|3x| - 2x - 2 - a)/(x^2 - 2x - a) = 0, exactly two distinct roots",
+  "solutions_wanted": 2,
+  "answer": {
+    "intervals": [
+      {
+        "low": "-2",
+        "high": "-1",
+        "low_closed": false,
+        "high_closed": false
+      },
+      {
+        "low": "-1",
+        "high": "0",
+        "low_closed": false,
+        "high_closed": false
+      },
+      {
+        "low": "0",
+        "high": "3",
+        "low_closed": false,
+        "high_closed": false
+      },
+      {
+        "low": "3",
+        "high": "8",
+        "low_closed": false,
+        "high_closed": false
+      },
+      {
+        "low": "8",
+        "high": "inf",
+        "low_closed": false,
+        "high_closed": false
+      }
+    ],
+    "points": []
+  },
+  "answer_written": "-2 < a < -1; -1 < a < 0; 0 < a < 3; 3 < a < 8; a > 8",
+  "near": {
+    "include": [
+      "-2"
+    ],
+    "exclude": []
+  },
+  "two_point_sets": [
+    {
+      "base": "key",
+      "include": [
+        "8",
+        "3",
+        "-2"
+      ],
+      "exclude": []
+    },
+    {
+      "base": "key",
+      "include": [
+        "0",
+        "-1",
+        "-2"
+      ],
+      "exclude": []
+    }
+  ],
+  "criteria": {
+    "4": "Обоснованно получен верный ответ",
+    "3": "С помощью верного рассуждения получено множество значений a, отличающееся от искомого только включением точки a = −2",
+    "2": "Верно рассмотрен хотя бы один из случаев решения, и получено или множество значений a, отличающееся от искомого только включением точек a = 8, a = 3 и/или a = −2, или множество значений a, отличающееся от искомого только включением точек a = 0, a = −1 и/или a = −2, ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом верно выполнены все шаги решения",
+    "1": "Задача верно сведена к исследованию взаимного расположения параболы и лучей (аналитически или графически)",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 18.5_solve_true_part_1.png and part_2.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key counts the distinct solutions exactly for every a on a grid and at every boundary value, and compares where the count is the wanted one with the key's set"
+}

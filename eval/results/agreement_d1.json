@@ -1,0 +1,371 @@
+{
+  "metric": "agreement",
+  "runIds": [
+    "r1"
+  ],
+  "slice": [
+    "task13s61"
+  ],
+  "models": {
+    "r1": {
+      "a": "groq:qwen/qwen3.8-27b",
+      "b": "gemini:gemini-3.5-flash-lite"
+    }
+  },
+  "readerSettings": {
+    "r1": {
+      "a": "groq:qwen/qwen3.8-27b",
+      "b": "gemini:gemini-3.5-flash-lite@thinking=low,max_output_tokens=8192"
+    }
+  },
+  "startedAt": {
+    "r1": "2026-11-04T09:10:21.371327+00:00"
+  },
+  "finishedAt": {
+    "r1": null
+  },
+  "variant": [
+    "without_answer"
+  ],
+  "mode": [
+    "with_true_solution"
+  ],
+  "writtenAt": "2026-11-04T11:39:44.153622+00:00",
+  "scriptsPerRun": [
+    10
+  ],
+  "failedCallsRetriedPerRun": [
+    {}
+  ],
+  "droppedPerRun": [
+    0
+  ],
+  "readerA": {
+    "exactPct": {
+      "mean": 40.0,
+      "min": 40.0,
+      "max": 40.0,
+      "spread": 0.0,
+      "runs": [
+        40.0
+      ]
+    },
+    "withinOnePct": {
+      "mean": 80.0,
+      "min": 80.0,
+      "max": 80.0,
+      "spread": 0.0,
+      "runs": [
+        80.0
+      ]
+    }
+  },
+  "readerB": {
+    "exactPct": {
+      "mean": 40.0,
+      "min": 40.0,
+      "max": 40.0,
+      "spread": 0.0,
+      "runs": [
+        40.0
+      ]
+    },
+    "withinOnePct": {
+      "mean": 80.0,
+      "min": 80.0,
+      "max": 80.0,
+      "spread": 0.0,
+      "runs": [
+        80.0
+      ]
+    }
+  },
+  "docket": {
+    "commitsPct": {
+      "mean": 60.0,
+      "min": 60.0,
+      "max": 60.0,
+      "spread": 0.0,
+      "runs": [
+        60.0
+      ]
+    },
+    "committedScripts": {
+      "mean": 6,
+      "min": 6,
+      "max": 6,
+      "spread": 0,
+      "runs": [
+        6
+      ]
+    },
+    "exactWhenCommitsPct": {
+      "mean": 33.3,
+      "min": 33.3,
+      "max": 33.3,
+      "spread": 0.0,
+      "runs": [
+        33.3
+      ]
+    },
+    "withinOneWhenCommitsPct": {
+      "mean": 66.7,
+      "min": 66.7,
+      "max": 66.7,
+      "spread": 0.0,
+      "runs": [
+        66.7
+      ]
+    },
+    "floorExactPct": {
+      "mean": 50.0,
+      "min": 50.0,
+      "max": 50.0,
+      "spread": 0.0,
+      "runs": [
+        50.0
+      ]
+    },
+    "floorWithinOnePct": {
+      "mean": 80.0,
+      "min": 80.0,
+      "max": 80.0,
+      "spread": 0.0,
+      "runs": [
+        80.0
+      ]
+    },
+    "teacherStandInExactPct": {
+      "mean": 60.0,
+      "min": 60.0,
+      "max": 60.0,
+      "spread": 0.0,
+      "runs": [
+        60.0
+      ]
+    },
+    "teacherStandInWithinOnePct": {
+      "mean": 80.0,
+      "min": 80.0,
+      "max": 80.0,
+      "spread": 0.0,
+      "runs": [
+        80.0
+      ]
+    }
+  },
+  "perRun": [
+    {
+      "scripts": 10,
+      "dropped": 0,
+      "wilson95": {
+        "readerAExact": {
+          "k": 4,
+          "n": 10,
+          "pct": 40.0,
+          "low": 16.8,
+          "high": 68.7
+        },
+        "readerAWithinOne": {
+          "k": 8,
+          "n": 10,
+          "pct": 80.0,
+          "low": 49.0,
+          "high": 94.3
+        },
+        "readerBExact": {
+          "k": 4,
+          "n": 10,
+          "pct": 40.0,
+          "low": 16.8,
+          "high": 68.7
+        },
+        "readerBWithinOne": {
+          "k": 8,
+          "n": 10,
+          "pct": 80.0,
+          "low": 49.0,
+          "high": 94.3
+        },
+        "commits": {
+          "k": 6,
+          "n": 10,
+          "pct": 60.0,
+          "low": 31.3,
+          "high": 83.2
+        },
+        "exactWhenCommits": {
+          "k": 2,
+          "n": 6,
+          "pct": 33.3,
+          "low": 9.7,
+          "high": 70.0
+        },
+        "withinOneWhenCommits": {
+          "k": 4,
+          "n": 6,
+          "pct": 66.7,
+          "low": 30.0,
+          "high": 90.3
+        },
+        "floorExact": {
+          "k": 5,
+          "n": 10,
+          "pct": 50.0,
+          "low": 23.7,
+          "high": 76.3
+        },
+        "floorWithinOne": {
+          "k": 8,
+          "n": 10,
+          "pct": 80.0,
+          "low": 49.0,
+          "high": 94.3
+        }
+      },
+      "paired": {
+        "floorVsReaderA": {
+          "firstOnlyRight": 1,
+          "secondOnlyRight": 0,
+          "bothRight": 4,
+          "neitherRight": 5,
+          "mcnemarExactP": 1.0
+        },
+        "floorVsReaderB": {
+          "firstOnlyRight": 1,
+          "secondOnlyRight": 0,
+          "bothRight": 4,
+          "neitherRight": 5,
+          "mcnemarExactP": 1.0
+        },
+        "readerAVsReaderB": {
+          "firstOnlyRight": 1,
+          "secondOnlyRight": 1,
+          "bothRight": 3,
+          "neitherRight": 5,
+          "mcnemarExactP": 1.0
+        }
+      },
+      "readerA": {
+        "exactPct": 40.0,
+        "withinOnePct": 80.0
+      },
+      "readerB": {
+        "exactPct": 40.0,
+        "withinOnePct": 80.0
+      },
+      "docket": {
+        "commitsPct": 60.0,
+        "committedScripts": 6,
+        "exactWhenCommitsPct": 33.3,
+        "withinOneWhenCommitsPct": 66.7,
+        "floorExactPct": 50.0,
+        "floorWithinOnePct": 80.0,
+        "teacherStandInExactPct": 60.0,
+        "teacherStandInWithinOnePct": 80.0
+      },
+      "teacher": {
+        "criteriaRoutedPct": 30.0,
+        "criteriaRouted": 9,
+        "criteria": 30,
+        "scriptsRoutedPct": 40.0,
+        "scriptsRouted": 4,
+        "scriptsUnreadByAReader": 0,
+        "officialDiffersFromAPct": 50.0,
+        "officialDiffersFromBPct": 50.0,
+        "officialDiffersFromAtLeastOnePct": 75.0,
+        "officialDiffersFromBothPct": 25.0
+      },
+      "runId": "r1"
+    }
+  ],
+  "wilson95": {
+    "readerAExact": {
+      "k": 4,
+      "n": 10,
+      "pct": 40.0,
+      "low": 16.8,
+      "high": 68.7
+    },
+    "readerAWithinOne": {
+      "k": 8,
+      "n": 10,
+      "pct": 80.0,
+      "low": 49.0,
+      "high": 94.3
+    },
+    "readerBExact": {
+      "k": 4,
+      "n": 10,
+      "pct": 40.0,
+      "low": 16.8,
+      "high": 68.7
+    },
+    "readerBWithinOne": {
+      "k": 8,
+      "n": 10,
+      "pct": 80.0,
+      "low": 49.0,
+      "high": 94.3
+    },
+    "commits": {
+      "k": 6,
+      "n": 10,
+      "pct": 60.0,
+      "low": 31.3,
+      "high": 83.2
+    },
+    "exactWhenCommits": {
+      "k": 2,
+      "n": 6,
+      "pct": 33.3,
+      "low": 9.7,
+      "high": 70.0
+    },
+    "withinOneWhenCommits": {
+      "k": 4,
+      "n": 6,
+      "pct": 66.7,
+      "low": 30.0,
+      "high": 90.3
+    },
+    "floorExact": {
+      "k": 5,
+      "n": 10,
+      "pct": 50.0,
+      "low": 23.7,
+      "high": 76.3
+    },
+    "floorWithinOne": {
+      "k": 8,
+      "n": 10,
+      "pct": 80.0,
+      "low": 49.0,
+      "high": 94.3
+    }
+  },
+  "paired": {
+    "floorVsReaderA": {
+      "firstOnlyRight": 1,
+      "secondOnlyRight": 0,
+      "bothRight": 4,
+      "neitherRight": 5,
+      "mcnemarExactP": 1.0
+    },
+    "floorVsReaderB": {
+      "firstOnlyRight": 1,
+      "secondOnlyRight": 0,
+      "bothRight": 4,
+      "neitherRight": 5,
+      "mcnemarExactP": 1.0
+    },
+    "readerAVsReaderB": {
+      "firstOnlyRight": 1,
+      "secondOnlyRight": 1,
+      "bothRight": 3,
+      "neitherRight": 5,
+      "mcnemarExactP": 1.0
+    }
+  },
+  "design": "1"
+}

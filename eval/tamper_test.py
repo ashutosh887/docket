@@ -92,13 +92,11 @@ def cases_for(name, doc):
             continue
         parsed["signature"] = doc["signature"]
         cases.append({"doc": name, "class": klass, "position": i, "parses": True, "text": json.dumps(parsed, ensure_ascii=False)})
-    sig = doc["signature"]["value"]
-    for i, ch in enumerate(sig):
-        if ch == "=":
-            continue
-        swapped = "A" if ch != "A" else "B"
+    der = base64.b64decode(doc["signature"]["value"])
+    for i in range(len(der)):
+        flipped = der[:i] + bytes([der[i] ^ 0x01]) + der[i + 1:]
         mutated = json.loads(json.dumps(doc))
-        mutated["signature"]["value"] = sig[:i] + swapped + sig[i + 1:]
+        mutated["signature"]["value"] = base64.b64encode(flipped).decode()
         cases.append({"doc": name, "class": "signature", "position": i, "parses": True, "text": json.dumps(mutated, ensure_ascii=False)})
     return cases
 
@@ -162,12 +160,12 @@ def main():
         "controlsVerifiedWeb": sum(control_web),
         "controlsTotal": len(docs),
         "controlsNotVerifying": unsigned,
-        "method": "one character changed at every position of each signed payload, and one base64 character of each signature; verified with the published public key by the page's own verifySigned (web/src/crypto.ts in Node WebCrypto) and by Python cryptography",
+        "method": "one character changed at every position of each signed payload, and the lowest bit of every byte of each DER signature; verified with the published public key by the page's own verifySigned (web/src/crypto.ts in Node WebCrypto) and by Python cryptography",
         "total": len(all_cases),
         "passed": sum(rejected.values()),
         "rejectedBeforeSignatureCheck": sum(1 for c in all_cases if not c["parses"]),
         "parts": [
-            {"label": f"{klass} characters", "class": klass, "total": by_class[klass], "passed": rejected[klass]}
+            {"label": "signature bytes" if klass == "signature" else f"{klass} characters", "class": klass, "total": by_class[klass], "passed": rejected[klass]}
             for klass in sorted(by_class)
         ],
         "acceptedTampered": accepted,

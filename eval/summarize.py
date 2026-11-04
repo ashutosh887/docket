@@ -314,6 +314,125 @@ def with_spread(stat, spread_stat):
     return {**stat, "spread": spread_stat["spread"] if spread_stat else stat["spread"]}
 
 
+def single_reader(run_ids, side, headline_on, spread_on, design):
+    key = "readerA" if side == "a" else "readerB"
+    out = {"metric": "single_reader", "design": design, "reader": side, "writtenAt": datetime.now(timezone.utc).isoformat(), "runs": []}
+    for run_id in run_ids:
+        meta, records = load_run(run_id)
+        records = [r for r in records if not r[key].get("error") and not r[key].get("notRun") and "total" in r[key]]
+        if not records:
+            continue
+        model = records[0][key]["model"]
+        n = len(records)
+        exact = sum(r[key]["total"] == r["official"] for r in records)
+        one = sum(abs(r[key]["total"] - r["official"]) <= 1 for r in records)
+        above = sum(r[key]["total"] > r["official"] for r in records)
+        out["runs"].append({
+            "runId": run_id, "slice": meta.get("slice"), "model": model, "scripts": n,
+            "scriptIds": sorted(r["scriptId"] for r in records),
+            "exact": wilson(exact, n), "withinOne": wilson(one, n), "aboveOfficial": above,
+            "failedCallsRetried": failed_calls(run_id),
+        })
+    keep = set(json.loads((EVAL / f"slice_{spread_on}.json").read_text())["scriptIds"])
+    per = []
+    for run_id in run_ids:
+        records = [r for r in load_run(run_id)[1] if r["scriptId"] in keep and "total" in r[key] and not r[key].get("notRun")]
+        if records:
+            per.append(round(100 * sum(r[key]["total"] == r["official"] for r in records) / len(records), 1))
+    first = {r["scriptId"]: r for r in load_run(run_ids[0])[1] if "total" in r[key] and not r[key].get("notRun")}
+    d1 = {r["scriptId"]: r for r in load_run("r1")[1] if usable(r)}
+    common_ids = sorted(set(first) & set(d1))
+    right = lambda r: r[key]["total"] == r["official"]
+    pairs = {}
+    for name, other in (("vsDesign1ReaderB", lambda r: r["readerB"]["total"] == r["official"]), ("vsDesign1ReaderA", lambda r: r["readerA"]["total"] == r["official"]), ("vsDesign1Floor", lambda r: r["docket"]["floorTotal"] == r["official"])):
+        a = sum(1 for i in common_ids if right(first[i]) and not other(d1[i]))
+        b = sum(1 for i in common_ids if other(d1[i]) and not right(first[i]))
+        pairs[name] = {"scripts": len(common_ids), "firstOnlyRight": a, "secondOnlyRight": b,
+                       "bothRight": sum(1 for i in common_ids if right(first[i]) and other(d1[i])),
+                       "neitherRight": sum(1 for i in common_ids if not right(first[i]) and not other(d1[i])),
+                       "mcnemarExactP": mcnemar(a, b)}
+    published = json.loads((RESULTS / "published_baselines.json").read_text()).get("task13Rows", []) if (RESULTS / "published_baselines.json").exists() else []
+    vs_published = []
+    for row in published[:3]:
+        ids = sorted(set(row.get("scriptIds", [])) & set(first))
+        good = set(row.get("rightScriptIds", []))
+        a = sum(1 for i in ids if right(first[i]) and i not in good)
+        b = sum(1 for i in ids if i in good and not right(first[i]))
+        vs_published.append({"model": row["model"], "mode": row["mode"], "scripts": len(ids), "firstOnlyRight": a, "secondOnlyRight": b,
+                             "bothRight": sum(1 for i in ids if right(first[i]) and i in good),
+                             "neitherRight": sum(1 for i in ids if not right(first[i]) and i not in good),
+                             "mcnemarExactP": mcnemar(a, b), "source": row["file"]})
+    out["pairedWithPublished"] = vs_published
+    out["pairedOnCommonScripts"] = pairs
+    out["spreadOn"] = spread_on
+    out["spreadExactPct"] = spread(per)
+    return out
+
+
+def keyed_tasks(run_ids, headline_on, spread_on):
+    key = "readerB"
+    graded = lambda records: [r for r in records if "total" in r[key] and not r[key].get("notRun") and not r[key].get("error")]
+    meta, first_records = load_run(run_ids[0])
+    wanted = json.loads((EVAL / f"slice_{headline_on}.json").read_text())["scriptIds"]
+    first = {r["scriptId"]: r for r in graded(first_records) if r["scriptId"] in set(wanted)}
+    right = lambda r: r[key]["total"] == r["official"]
+    published = json.loads((RESULTS / "published_baselines.json").read_text()).get("keyedTaskRows", {})
+    out = {"metric": "single_reader_keyed", "design": "2", "reader": "b", "writtenAt": datetime.now(timezone.utc).isoformat(),
+           "runId": run_ids[0], "slice": headline_on, "model": next((r[key]["model"] for r in first.values()), None),
+           "scriptsInSlice": len(wanted), "scriptsGraded": len(first), "notRun": sorted(set(wanted) - set(first)),
+           "failedCallsRetried": failed_calls(run_ids[0]), "dailyCap": meta.get("dailyCap"), "tasks": {}}
+    groups = {}
+    for r in first.values():
+        groups.setdefault(str(r["task"]), []).append(r)
+    groups["pooled"] = list(first.values())
+    for task, records in groups.items():
+        n = len(records)
+        row = {"scripts": n, "scriptIds": sorted(r["scriptId"] for r in records),
+               "exact": wilson(sum(right(r) for r in records), n),
+               "withinOne": wilson(sum(abs(r[key]["total"] - r["official"]) <= 1 for r in records), n),
+               "aboveOfficial": sum(r[key]["total"] > r["official"] for r in records),
+               "belowOfficial": sum(r[key]["total"] < r["official"] for r in records)}
+        tasks = [task] if task != "pooled" else sorted(t for t in groups if t != "pooled")
+        candidates = {}
+        for t in tasks:
+            for prow in published.get(t, []):
+                if prow["mode"] != "with_true_solution":
+                    continue
+                entry = candidates.setdefault(prow["model"], {"scriptIds": set(), "right": set(), "files": set()})
+                entry["scriptIds"] |= set(prow["scriptIds"])
+                entry["right"] |= set(prow["rightScriptIds"])
+                entry["files"].add(prow["file"])
+        best = None
+        for model, entry in candidates.items():
+            ids = sorted(set(entry["scriptIds"]) & {r["scriptId"] for r in records})
+            if len(ids) != n:
+                continue
+            good = entry["right"]
+            score = sum(1 for i in ids if i in good)
+            if best is None or score > best["publishedExact"]:
+                a = sum(1 for i in ids if right(first[i]) and i not in good)
+                b = sum(1 for i in ids if i in good and not right(first[i]))
+                best = {"model": model, "mode": "with_true_solution", "scripts": len(ids), "publishedExact": score,
+                        "firstOnlyRight": a, "secondOnlyRight": b,
+                        "bothRight": sum(1 for i in ids if right(first[i]) and i in good),
+                        "neitherRight": sum(1 for i in ids if not right(first[i]) and i not in good),
+                        "mcnemarExactP": mcnemar(a, b), "source": sorted(entry["files"])}
+        row["bestPublishedOnSameScripts"] = best
+        out["tasks"][task] = row
+    keep = set(json.loads((EVAL / f"slice_{spread_on}.json").read_text())["scriptIds"])
+    per = []
+    counts = []
+    for run_id in run_ids:
+        records = [r for r in graded(load_run(run_id)[1]) if r["scriptId"] in keep]
+        if records:
+            per.append(round(100 * sum(right(r) for r in records) / len(records), 1))
+            counts.append({"runId": run_id, "exact": sum(right(r) for r in records), "scripts": len(records)})
+    out["spreadOn"] = spread_on
+    out["spreadExactPct"] = spread(per)
+    out["spreadCounts"] = counts
+    return out
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--headline", nargs="+", default=["r1"])
@@ -324,10 +443,26 @@ def main():
     parser.add_argument("--results-dir", type=Path, default=None)
     parser.add_argument("--design", default="1")
     parser.add_argument("--pair-with", default=None)
+    parser.add_argument("--single-reader", choices=["a", "b"], default=None)
+    parser.add_argument("--keyed", action="store_true")
     args = parser.parse_args()
     global RUNS, RESULTS
     RUNS = args.runs_dir or RUNS
     RESULTS = args.results_dir or RESULTS
+    if args.keyed:
+        result = keyed_tasks(args.spread, args.headline_on, args.spread_on)
+        (RESULTS / "single_reader_d2_b_keyed.json").write_text(json.dumps(result, indent=2) + "\n")
+        for task, row in result["tasks"].items():
+            print(task, row["exact"], row["withinOne"], row["bestPublishedOnSameScripts"] and {k: row["bestPublishedOnSameScripts"][k] for k in ("model", "publishedExact", "mcnemarExactP")})
+        print("spread", result["spreadExactPct"], result["spreadCounts"])
+        return
+    if args.single_reader:
+        result = single_reader(args.spread, args.single_reader, args.headline_on, args.spread_on, args.design)
+        (RESULTS / f"single_reader_d{args.design}_{args.single_reader}.json").write_text(json.dumps(result, indent=2) + "\n")
+        print(json.dumps({k: v for k, v in result.items() if k != "runs"}, indent=1))
+        for r in result["runs"]:
+            print(r["runId"], r["scripts"], r["exact"], r["withinOne"])
+        return
     agreement, teacher, common, records_by_run = build(args.headline, args.headline_on)
     common["design"] = args.design
     agreement["design"] = args.design
@@ -371,6 +506,9 @@ def main():
         "commitsShare": verdict_share(d["commitsPct"], BAR["commitsWinShare"], BAR["commitsLossShare"]),
         "interruptCatches": verdict_share(teacher["officialDiffersFromAtLeastOnePct"], BAR["catchWinShare"], BAR["catchLossShare"]),
     }
+    if len(sa["runIds"]) < 3:
+        for key in ("exactWhenCommitsVsReaderA", "exactWhenCommitsVsReaderB", "floorVsBest"):
+            verdicts[key] = f"{verdicts[key]} on {len(sa['runIds'])} run(s); the bar needs three runs for the spread, so this is not a preregistered result"
     all_records = dict(records_by_run)
     for run_id in present:
         if run_id not in all_records:

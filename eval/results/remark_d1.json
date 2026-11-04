@@ -1,0 +1,192 @@
+{
+  "metric": "remark",
+  "slice": "seeded61",
+  "from": "v1",
+  "to": "v2",
+  "change": "Demonstration amendment (not an FIPI change): on task 13, 1 point now requires that every step of both parts is correct with any wrong answer caused only by a computational error (K3); a correct part (a) next to a wrong root selection in part (b) no longer earns it.",
+  "tasksChanged": [
+    13
+  ],
+  "readers": {
+    "a": "groq:qwen/qwen3.8-27b",
+    "b": "gemini:gemini-3.5-flash-lite"
+  },
+  "keyId": "arn:aws:kms:ap-south-1:960149837193:key/3e29a662-62e2-4526-aacf-28f7b0722921",
+  "issuedUnderV1": 10,
+  "issueSeconds": 21.2,
+  "remarked": 10,
+  "reissued": 2,
+  "revoked": 2,
+  "unchanged": 8,
+  "needsTeacher": 0,
+  "blocked": 0,
+  "modelCalls": 0,
+  "seconds": 1.1,
+  "revocationListVerifies": true,
+  "checksPassed": 10,
+  "checks": 10,
+  "teacherStandIn": "contested criteria decided by the 0/1 assignment whose scheme total is nearest the official grade",
+  "writtenAt": "2026-11-04T11:11:03.463005+00:00",
+  "rows": [
+    {
+      "scriptId": "13.1.1",
+      "status": "unchanged",
+      "oldTotal": 2,
+      "newTotal": 2,
+      "oldStatus": "valid",
+      "ok": true
+    },
+    {
+      "scriptId": "13.1.4",
+      "status": "unchanged",
+      "oldTotal": 2,
+      "newTotal": 2,
+      "oldStatus": "valid",
+      "ok": true
+    },
+    {
+      "scriptId": "13.2.3",
+      "status": "reissued",
+      "oldTotal": 1,
+      "newTotal": 0,
+      "newVerifies": true,
+      "newSupersedesOld": true,
+      "oldListed": true,
+      "oldStatus": "superseded",
+      "ok": true
+    },
+    {
+      "scriptId": "13.3.3",
+      "status": "reissued",
+      "oldTotal": 1,
+      "newTotal": 0,
+      "newVerifies": true,
+      "newSupersedesOld": true,
+      "oldListed": true,
+      "oldStatus": "superseded",
+      "ok": true
+    },
+    {
+      "scriptId": "13.3.4",
+      "status": "unchanged",
+      "oldTotal": 2,
+      "newTotal": 2,
+      "oldStatus": "valid",
+      "ok": true
+    },
+    {
+      "scriptId": "13.5.1",
+      "status": "unchanged",
+      "oldTotal": 1,
+      "newTotal": 1,
+      "oldStatus": "valid",
+      "ok": true
+    },
+    {
+      "scriptId": "13.5.2",
+      "status": "unchanged",
+      "oldTotal": 2,
+      "newTotal": 2,
+      "oldStatus": "valid",
+      "ok": true
+    },
+    {
+      "scriptId": "13.6.1",
+      "status": "unchanged",
+      "oldTotal": 1,
+      "newTotal": 1,
+      "oldStatus": "valid",
+      "ok": true
+    },
+    {
+      "scriptId": "13.6.2",
+      "status": "unchanged",
+      "oldTotal": 0,
+      "newTotal": 0,
+      "oldStatus": "valid",
+      "ok": true
+    },
+    {
+      "scriptId": "13.6.3",
+      "status": "unchanged",
+      "oldTotal": 2,
+      "newTotal": 2,
+      "oldStatus": "valid",
+      "ok": true
+    }
+  ],
+  "firstIssue": [
+    {
+      "scriptId": "13.1.1",
+      "credentialId": "dkt_13.1.1_v1_1",
+      "total": 2,
+      "official": 2,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.1.4",
+      "credentialId": "dkt_13.1.4_v1_1",
+      "total": 2,
+      "official": 1,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.2.3",
+      "credentialId": "dkt_13.2.3_v1_1",
+      "total": 1,
+      "official": 1,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.3.3",
+      "credentialId": "dkt_13.3.3_v1_1",
+      "total": 1,
+      "official": 1,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.3.4",
+      "credentialId": "dkt_13.3.4_v1_1",
+      "total": 2,
+      "official": 0,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.5.1",
+      "credentialId": "dkt_13.5.1_v1_1",
+      "total": 1,
+      "official": 1,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.5.2",
+      "credentialId": "dkt_13.5.2_v1_1",
+      "total": 2,
+      "official": 1,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.6.1",
+      "credentialId": "dkt_13.6.1_v1_1",
+      "total": 1,
+      "official": 1,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.6.2",
+      "credentialId": "dkt_13.6.2_v1_1",
+      "total": 0,
+      "official": 0,
+      "blocked": null
+    },
+    {
+      "scriptId": "13.6.3",
+      "credentialId": "dkt_13.6.3_v1_1",
+      "total": 2,
+      "official": 0,
+      "blocked": null
+    }
+  ],
+  "outDir": "eval/runs/remark/out",
+  "design": "1"
+}

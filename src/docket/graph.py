@@ -39,6 +39,7 @@ class Case:
     interrupt: Any = None
     seconds: float = 0.0
     requests: dict = field(default_factory=dict)
+    appeal: dict | None = None
 
     def contested(self) -> list[comparator.CriterionCall]:
         return [c for c in self.calls if c.status == "contested"]
@@ -76,6 +77,9 @@ class Step(MultiAgentBase):
 
 def reader(side: str) -> Callable[[Case], Awaitable[str]]:
     async def run(case: Case) -> str:
+        if case.records.get(side) is not None:
+            reading = case.records[side]["reading"]
+            return f"reader {side} replayed {len(reading['criteria'])} cached criteria, declined={reading['declined']}"
         try:
             case.records[side] = await read_script(case.script, case.readers[side], case.scheme, blind=case.blind)
         except Exception as error:
@@ -89,6 +93,10 @@ def reader(side: str) -> Callable[[Case], Awaitable[str]]:
 
 async def compare_step(case: Case) -> str:
     case.calls = comparator.compare(case.scheme, case.records["a"], case.records["b"], min_confidence(), margin_threshold())
+    if case.appeal:
+        for call in case.calls:
+            if call.status == "agreed" and call.id in case.appeal["criteria"]:
+                call.status, call.reason = "contested", "under appeal"
     case.route = comparator.route(case.calls)
     return f"route={case.route}"
 
@@ -124,6 +132,7 @@ def build_credential(case: Case) -> dict:
         "design": 2 if any((r or {}).get("design") == 2 for r in case.records.values()) else 1,
         "issuedAt": store.now(),
         "supersedes": case.supersedes["credentialId"] if case.supersedes else None,
+        **({"appeal": {"appealId": case.appeal["appealId"], "reason": case.appeal["reason"]}} if case.appeal else {}),
     }
 
 
@@ -133,6 +142,13 @@ def same_marks(old: dict, new: dict) -> bool:
 
 async def signer_step(case: Case) -> str:
     draft = build_credential(case)
+    if case.appeal:
+        if draft["total"] == case.supersedes["total"]:
+            case.unchanged = True
+            return f"appeal reviewed, grade unchanged: {draft['total']}/{draft['max']}"
+        case.credential = sign(draft)
+        store.save_credential(case.credential)
+        return f"appeal upheld: signed {case.credential['credentialId']} total={draft['total']}/{draft['max']}"
     if not case.supersedes:
         same = [c for c in store.credentials_for(case.script.script_id) if c["schemeVersion"] == draft["schemeVersion"] and c["imageSha256"] == draft["imageSha256"] and c["readers"] == draft["readers"] and same_marks(c, draft)]
         if same:
@@ -220,7 +236,8 @@ def routed(*routes: str) -> Callable[..., bool]:
 
 
 def session_id(case: Case) -> str:
-    return f"docket-{case.script.script_id}-{case.scheme.version}".replace(".", "_")
+    suffix = f"-{case.appeal['appealId']}" if case.appeal else ""
+    return f"docket-{case.script.script_id}-{case.scheme.version}{suffix}".replace(".", "_")
 
 
 def session_for(case: Case):
@@ -244,7 +261,7 @@ def invocation_id() -> str:
     return os.environ.get("DOCKET_REQUEST_ID") or f"pid-{os.getpid()}"
 
 
-def build_graph(session_manager=None):
+def build_graph(session_manager=None, hooks: tuple[HookProvider, ...] = ()):
     builder = GraphBuilder()
     builder.add_node(Step("reader_a", reader("a")), "reader_a")
     builder.add_node(Step("reader_b", reader("b")), "reader_b")
@@ -258,7 +275,7 @@ def build_graph(session_manager=None):
     builder.add_edge("comparator", "signer", condition=routed("signer", "unread"))
     builder.add_edge("comparator", "teacher", condition=routed("teacher"))
     builder.add_edge("teacher", "signer")
-    builder.set_hook_providers([TeacherInterrupt(), SigningGuard()])
+    builder.set_hook_providers([TeacherInterrupt(), SigningGuard(), *hooks])
     builder.set_max_node_executions(10)
     builder.set_graph_id("docket")
     if session_manager is not None:
@@ -266,9 +283,9 @@ def build_graph(session_manager=None):
     return builder.build()
 
 
-async def run_case(case: Case, answer: Callable[[dict], dict | None] | None = None) -> Case:
+async def run_case(case: Case, answer: Callable[[dict], dict | None] | None = None, hooks: tuple[HookProvider, ...] = ()) -> Case:
     started = time.monotonic()
-    graph = build_graph(session_for(case))
+    graph = build_graph(session_for(case), hooks)
     state = {"case": case}
     case.requests = {"started": invocation_id()}
     try:

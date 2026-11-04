@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
-export type Page = "verify" | "scripts" | "remark" | "how";
+export type Page = "verify" | "scripts" | "moderation" | "remark" | "appeals" | "how";
 export const PAGES: { id: Page; label: string }[] = [
   { id: "verify", label: "Verify" },
   { id: "scripts", label: "Scripts" },
+  { id: "moderation", label: "Moderation" },
   { id: "remark", label: "Re-mark" },
+  { id: "appeals", label: "Appeals" },
   { id: "how", label: "How it works" },
 ];
 

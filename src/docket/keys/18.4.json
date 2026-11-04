@@ -1,0 +1,36 @@
+{
+  "variant": "18.4",
+  "task": 18,
+  "system": "x^2 + 5x + y^2 - y - |x - 5y + 5| = 52, y - 2 = a(x - 5), exactly two solutions",
+  "solutions_wanted": 2,
+  "answer": {
+    "intervals": [
+      {
+        "low": "-7/4",
+        "high": "8",
+        "low_closed": true,
+        "high_closed": true
+      }
+    ],
+    "points": []
+  },
+  "answer_written": "-7/4 <= a <= 8",
+  "near": {
+    "include": [],
+    "exclude": [
+      "-7/4",
+      "8"
+    ]
+  },
+  "two_point_sets": [],
+  "criteria": {
+    "4": "Обоснованно получен верный ответ",
+    "3": "С помощью верного рассуждения получено множество значений a, отличающееся от искомого только исключением точек a = −7/4 и/или a = 8",
+    "2": "При всех значениях a верно найдено количество решений системы в одном из двух случаев, возникающих при раскрытии модуля ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом верно выполнены все шаги решения",
+    "1": "Задача верно сведена к исследованию взаимного расположения дуг окружностей и прямой (аналитически или графически)",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 18.4_solve_true_part_1.png and part_2.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key counts the distinct solutions exactly for every a on a grid and at every boundary value, and compares where the count is the wanted one with the key's set"
+}

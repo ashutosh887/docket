@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { verifySigned } from "../crypto";
-import { dataUrl } from "../data";
+import { dataUrl, isAppealEntry } from "../data";
 import { href } from "../route";
 import type { Credential, RevocationEntry, SiteData } from "../types";
 
@@ -48,6 +48,11 @@ const LABEL: Record<Verdict["kind"], string> = {
   superseded: "Superseded",
   revoked: "Revoked",
 };
+
+function labelFor(verdict: Verdict): string {
+  if (verdict.kind === "superseded" && isAppealEntry(verdict.entry)) return /upheld/i.test(verdict.entry.reason) ? "Superseded: appeal upheld" : "Superseded: appeal";
+  return LABEL[verdict.kind];
+}
 
 export function VerifyPage({ data, initial }: { data: SiteData; initial: string | null }) {
   const ids = [...data.credentials.keys()].sort();
@@ -129,7 +134,7 @@ export function VerifyPage({ data, initial }: { data: SiteData; initial: string 
       />
       {note && <p className="note">{note}</p>}
       <div className={`verdict v-${verdict.kind}`} role="status">
-        <strong>{LABEL[verdict.kind]}</strong>
+        <strong>{labelFor(verdict)}</strong>
         <VerdictDetail verdict={verdict} data={data} />
       </div>
       <p className="muted small">{listLine}</p>

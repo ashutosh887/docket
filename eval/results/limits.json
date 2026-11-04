@@ -1,0 +1,34 @@
+{
+  "metric": "limits",
+  "note": "free-tier limits as the providers reported them on 4 Nov 2026; these bound how many readings could be made, and so the slice size",
+  "rows": [
+    {
+      "provider": "groq",
+      "model": "qwen/qwen3.8-27b",
+      "limit": "8,000 tokens per minute, 1,000 requests per day",
+      "evidence": "response headers x-ratelimit-limit-tokens: 8000, x-ratelimit-limit-requests: 1000",
+      "readAt": "2026-11-04T07:36:08Z"
+    },
+    {
+      "provider": "groq",
+      "model": "qwen/qwen3.8-27b",
+      "limit": "200,000 tokens per rolling day",
+      "evidence": "429 body: Limit 200000, Used 198144, Requested 5876. Please try again in 28m56s",
+      "readAt": "2026-11-04T11:09:20Z"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3-flash",
+      "limit": "20 requests per day per model",
+      "evidence": "429 RESOURCE_EXHAUSTED, quotaId GenerateRequestsPerDayPerProjectPerModel-FreeTier, quotaValue 20, retry in 23h47m",
+      "readAt": "2026-11-04T08:59:00Z"
+    },
+    {
+      "provider": "groq",
+      "model": "qwen/qwen3.8-27b",
+      "limit": "200,000 tokens per rolling day",
+      "evidence": "429 body after the t2 request change: Limit 200000, Used 198966, Requested 3657. Please try again in 18m53s",
+      "readAt": "2026-11-04T11:20:30Z"
+    }
+  ]
+}

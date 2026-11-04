@@ -55,19 +55,40 @@ def tokens_of(record):
 FORMAT_ERRORS = ("tool call validation", "did not match schema", "structured output", "validation error", "not in request")
 
 
-async def with_outer_retry(make_call, tries=5, wait=75, log_path=None, label=""):
+TRANSIENT = ("connection", "connect", "429", "rate limit", "timeout", "timed out", "503", "unavailable", "overloaded", "500", "internal", "temporarily")
+
+
+DAILY_CAP: list[str] = []
+
+
+async def with_outer_retry(make_call, tries=5, wait=60, log_path=None, label=""):
     last = None
-    for attempt in range(tries):
+    attempt = 0
+    format_failures = 0
+    while True:
+        attempt += 1
+        if DAILY_CAP:
+            raise RuntimeError(f"stopped: daily cap reached earlier in this run: {DAILY_CAP[0][:200]}")
         try:
             return await make_call()
         except Exception as error:
             last = error
             text = str(error)
-            pause = 5 if any(m in text.lower() for m in FORMAT_ERRORS) else wait
+            low = text.lower()
+            if "perday" in low.replace(" ", ""):
+                DAILY_CAP.append(text[:600])
+                raise last
+            if any(m in low for m in FORMAT_ERRORS):
+                format_failures += 1
+                pause = 5
+                if format_failures >= tries:
+                    raise last
+            elif any(m in low for m in TRANSIENT):
+                pause = wait
+            else:
+                raise last
             if log_path:
                 with open(log_path, "a") as handle:
-                    handle.write(json.dumps({"at": now_iso(), "label": label, "attempt": attempt + 1, "error": text[:300]}) + "\n")
-            if attempt < tries - 1:
-                print(f"  {ist()} call failed ({text[:140]}); waiting {pause}s", flush=True)
-                await asyncio.sleep(pause)
-    raise last
+                    handle.write(json.dumps({"at": now_iso(), "label": label, "attempt": attempt, "error": text[:300]}) + "\n")
+            print(f"  {ist()} call failed ({text[:140]}); waiting {pause}s", flush=True)
+            await asyncio.sleep(pause)

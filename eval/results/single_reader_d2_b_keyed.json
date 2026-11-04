@@ -1,0 +1,237 @@
+{
+  "metric": "single_reader_keyed",
+  "design": "2",
+  "reader": "b",
+  "writtenAt": "2026-11-04T14:23:18.819220+00:00",
+  "runId": "d2x-r1",
+  "slice": "keyed61",
+  "model": "gemini:gemini-3.5-flash-lite",
+  "scriptsInSlice": 26,
+  "scriptsGraded": 26,
+  "notRun": [],
+  "failedCallsRetried": {},
+  "dailyCap": null,
+  "tasks": {
+    "15": {
+      "scripts": 10,
+      "scriptIds": [
+        "15.1.2",
+        "15.1.4",
+        "15.2.1",
+        "15.2.2",
+        "15.2.4",
+        "15.3.2",
+        "15.3.3",
+        "15.3.4",
+        "15.5.1",
+        "15.5.2"
+      ],
+      "exact": {
+        "k": 7,
+        "n": 10,
+        "pct": 70.0,
+        "low": 39.7,
+        "high": 89.2
+      },
+      "withinOne": {
+        "k": 7,
+        "n": 10,
+        "pct": 70.0,
+        "low": 39.7,
+        "high": 89.2
+      },
+      "aboveOfficial": 2,
+      "belowOfficial": 1,
+      "bestPublishedOnSameScripts": {
+        "model": "openai/o4-mini",
+        "mode": "with_true_solution",
+        "scripts": 10,
+        "publishedExact": 7,
+        "firstOnlyRight": 1,
+        "secondOnlyRight": 1,
+        "bothRight": 6,
+        "neitherRight": 2,
+        "mcnemarExactP": 1.0,
+        "source": [
+          "model_results/openai_o4-mini/benchmark_all_tasks_o4-mini_all_modes_20250616_015100.json"
+        ]
+      }
+    },
+    "16": {
+      "scripts": 8,
+      "scriptIds": [
+        "16.2.3",
+        "16.2.4",
+        "16.3.1",
+        "16.4.1",
+        "16.4.2",
+        "16.4.3",
+        "16.5.1",
+        "16.5.2"
+      ],
+      "exact": {
+        "k": 5,
+        "n": 8,
+        "pct": 62.5,
+        "low": 30.6,
+        "high": 86.3
+      },
+      "withinOne": {
+        "k": 8,
+        "n": 8,
+        "pct": 100.0,
+        "low": 67.6,
+        "high": 100.0
+      },
+      "aboveOfficial": 3,
+      "belowOfficial": 0,
+      "bestPublishedOnSameScripts": {
+        "model": "openai/o4-mini",
+        "mode": "with_true_solution",
+        "scripts": 8,
+        "publishedExact": 6,
+        "firstOnlyRight": 1,
+        "secondOnlyRight": 2,
+        "bothRight": 4,
+        "neitherRight": 1,
+        "mcnemarExactP": 1.0,
+        "source": [
+          "model_results/openai_o4-mini/benchmark_all_tasks_o4-mini_all_modes_20250616_015100.json"
+        ]
+      }
+    },
+    "18": {
+      "scripts": 8,
+      "scriptIds": [
+        "18.1.1",
+        "18.1.2",
+        "18.2.1",
+        "18.2.3",
+        "18.3.1",
+        "18.3.4",
+        "18.4.2",
+        "18.5.1"
+      ],
+      "exact": {
+        "k": 5,
+        "n": 8,
+        "pct": 62.5,
+        "low": 30.6,
+        "high": 86.3
+      },
+      "withinOne": {
+        "k": 6,
+        "n": 8,
+        "pct": 75.0,
+        "low": 40.9,
+        "high": 92.9
+      },
+      "aboveOfficial": 1,
+      "belowOfficial": 2,
+      "bestPublishedOnSameScripts": {
+        "model": "openai/o4-mini",
+        "mode": "with_true_solution",
+        "scripts": 8,
+        "publishedExact": 6,
+        "firstOnlyRight": 1,
+        "secondOnlyRight": 2,
+        "bothRight": 4,
+        "neitherRight": 1,
+        "mcnemarExactP": 1.0,
+        "source": [
+          "model_results/openai_o4-mini/benchmark_all_tasks_o4-mini_all_modes_20250616_015100.json"
+        ]
+      }
+    },
+    "pooled": {
+      "scripts": 26,
+      "scriptIds": [
+        "15.1.2",
+        "15.1.4",
+        "15.2.1",
+        "15.2.2",
+        "15.2.4",
+        "15.3.2",
+        "15.3.3",
+        "15.3.4",
+        "15.5.1",
+        "15.5.2",
+        "16.2.3",
+        "16.2.4",
+        "16.3.1",
+        "16.4.1",
+        "16.4.2",
+        "16.4.3",
+        "16.5.1",
+        "16.5.2",
+        "18.1.1",
+        "18.1.2",
+        "18.2.1",
+        "18.2.3",
+        "18.3.1",
+        "18.3.4",
+        "18.4.2",
+        "18.5.1"
+      ],
+      "exact": {
+        "k": 17,
+        "n": 26,
+        "pct": 65.4,
+        "low": 46.2,
+        "high": 80.6
+      },
+      "withinOne": {
+        "k": 21,
+        "n": 26,
+        "pct": 80.8,
+        "low": 62.1,
+        "high": 91.5
+      },
+      "aboveOfficial": 6,
+      "belowOfficial": 3,
+      "bestPublishedOnSameScripts": {
+        "model": "openai/o4-mini",
+        "mode": "with_true_solution",
+        "scripts": 26,
+        "publishedExact": 19,
+        "firstOnlyRight": 3,
+        "secondOnlyRight": 5,
+        "bothRight": 14,
+        "neitherRight": 4,
+        "mcnemarExactP": 0.7266,
+        "source": [
+          "model_results/openai_o4-mini/benchmark_all_tasks_o4-mini_all_modes_20250616_015100.json"
+        ]
+      }
+    }
+  },
+  "spreadOn": "keyed21",
+  "spreadExactPct": {
+    "mean": 66.7,
+    "min": 66.7,
+    "max": 66.7,
+    "spread": 0.0,
+    "runs": [
+      66.7,
+      66.7,
+      66.7
+    ]
+  },
+  "spreadCounts": [
+    {
+      "runId": "d2x-r1",
+      "exact": 6,
+      "scripts": 9
+    },
+    {
+      "runId": "d2x-r2",
+      "exact": 6,
+      "scripts": 9
+    },
+    {
+      "runId": "d2x-r3",
+      "exact": 6,
+      "scripts": 9
+    }
+  ]
+}

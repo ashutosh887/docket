@@ -547,3 +547,82 @@ marker path {
   color: var(--bad);
   font-weight: 600;
 }
+
+.kicker {
+  font: 600 1rem/1.4 Georgia, "Iowan Old Style", serif;
+  color: var(--navy);
+  margin: 0 0 10px;
+  max-width: 60ch;
+}
+
+.lead .result {
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+
+.lead .small.muted {
+  margin: 0 0 14px;
+}
+
+.try-title {
+  font: 600 1.1rem/1.3 Georgia, serif;
+  margin: 20px 0 6px;
+}
+
+.try {
+  margin: 0;
+  padding-left: 1.4em;
+  max-width: 68ch;
+}
+
+.try li {
+  margin: 2px 0;
+}
+
+.tag.over {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+
+.tag.under {
+  background: var(--bad-bg);
+  color: var(--bad);
+}
+
+.crit-list {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+}
+
+.crit-list li {
+  border-top: 1px solid var(--line);
+  padding: 8px 0;
+  min-width: 0;
+}
+
+.crit-list li p {
+  margin: 2px 0;
+  overflow-wrap: anywhere;
+}
+
+.readings > span {
+  display: block;
+}
+
+.stats.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.readings .quote {
+  overflow-wrap: anywhere;
+}
+
+.lead.compact > p,
+.lead.compact .result {
+  display: none;
+}
+
+.lead.compact {
+  padding-bottom: 0;
+}

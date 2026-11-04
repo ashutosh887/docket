@@ -108,6 +108,178 @@ Core keyed answers for task 13 only (`src/docket/keys/13.1.json` to `13.6.json`,
 - If Groq time is left before 17:30 IST, design-2 run 1 and design-1 run 1 extend to the 11 task-13 scripts outside the seeded 61. That extension is reported as its own row and never replaces the headline.
 - Reader B is `gemini:gemini-3.5-flash-lite` in both designs (Amendment 1). Groq makes one reader-A call at a time; two at once broke the 8,000 tokens-a-minute limit (14:52 IST).
 
+## Amendment 4, 4 Nov 2026 16:33 IST
+
+The laptop's network failed between about 15:00 and 16:30 IST, and Groq's 8,000 tokens a minute allows about one reading a minute, so not everything in Amendment 3 fits before 17:45 IST. In this order:
+
+1. Design-2 run 1 on the 10 task-13 scripts of the seeded 61, then on the other 11 task-13 scripts: 21 in all.
+2. Design-2 runs 2 and 3 on the 10, for the spread.
+3. Design-1 run 1 on the 11 task-13 scripts it has not read, so the two designs pair on all 21 task-13 scripts.
+4. Design 1 on the rest of the seeded 61 is dropped. Design 1 is reported on the scripts it finished, labelled with their count.
+
+The design-2 headline becomes run 1 on all 21 task-13 scripts. The spread comes from runs 1 to 3 on the 10. Connection errors and rate limits are retried until they answer, never recorded as a result.
+
+## Amendment 5, 4 Nov 2026 16:48 IST (before any counted design-2 reading)
+
+Design 2's reader requests changed in core (`src/docket/readers.py`, prompt version `t2`): no reference image, and `max_completion_tokens` 800 instead of 3,000. Reason: Groq counts the requested completion tokens against its 8,000-a-minute window, so each design-2 call reserved about 6,900 tokens and looped on 429. Design 2 needs only the student's pages, because the answer key is in code; leaving the reference out also removes any chance of a reader copying from it. Design 1 is unchanged. The 4 design-2 results made under the old request (all errors) are kept under `eval/runs/aborted-t1/` and counted nowhere. Groq's other limit, 200,000 tokens per rolling day (`eval/results/limits.json`), is what limits how many design-2 readings fit today.
+
+## Amendment 6, 4 Nov 2026 17:05 IST
+
+Reader A's provider is at its daily cap. A direct call at 17:03 IST returned "tokens per day (TPD): Limit 200000, Used 198114, Requested 2069. Please try again in 1m19s". No other free vision reader answers (the others asked for payment or are text-only), and no paid reader is used. So:
+
+1. **Design 2, reader B + code key:** reader B (`gemini:gemini-3.5-flash-lite`) transcribes all 21 task-13 scripts, and the code key scores them. This is a single-reader row (`d2b-r1`), and it is not Docket's two-reader design.
+2. **Design 2, two readers:** reader A's readings are kept as the daily window frees tokens, one request at a time. The full design-2 row is reported on whatever subset has both readings, with its N.
+3. **Spread:** reader-B-only runs 2 and 3 on the 10 task-13 scripts of the seeded 61 (`d2b-r2`, `d2b-r3`).
+4. A missing reading is never filled. It stays missing and is counted as not run.
+
+The tables at 17:45 IST show design 1 on its 10 scripts (both readers), design 2 reader B + key on 21, design 2 two readers on its subset, each reader alone, and every N.
+
+## Amendment 7, 4 Nov 2026 19:32 IST (before any design-2 reading of tasks 15, 16 or 18)
+
+Design 2 is extended from task 13 to the seeded-61 tasks whose final answer code can check against a key.
+
+**Tasks added, and why.**
+- **Task 15** (inequality): the answer is a set of intervals and points. Keys `src/docket/keys/15.1.json`, `15.2.json`, `15.3.json`, `15.5.json`. The official 1-point line ("Обоснованно получен ответ, отличающийся от верного исключением точки 1, ИЛИ получен неверный ответ из-за вычислительной ошибки, но при этом имеется верная последовательность всех шагов решения") is checked in code for its boundary-point branch. The slip branch is the reader's flag, as in task 13. `src/docket/scheme.py`'s task-15 K2 wording names only the slip branch. Code applies both branches as the reference criteria state them.
+- **Task 16** (loan word problem): the answer is one number. Keys `16.2` to `16.5`. 2 points ("Обоснованно получен верный ответ") are the number checked in code plus the reader's work-shown flag. 1 point ("Верно построена математическая модель") is the reader's judgement that the model is complete: code cannot check it.
+- **Task 18** (parameter): the answer is a set of values of a. Keys `18.1` to `18.5`. Code checks the 4-point line and the 3-point line ("отличающееся от искомого только включением / исключением точек …", each variant's points quoted in its key). Where the official 2-point line names a set, code checks that too: 18.1, 18.2 and 18.3 (an interval, possibly with its ends) and 18.5 (two point sets). The rest is the reader's judgement: 18.4's 2-point line ("верно найдено количество решений системы в одном из двух случаев"), the slip branch and the 1-point line ("Задача верно сведена к исследованию …").
+- **Skipped:** tasks 14 and 17 (geometry). Part (a) is a proof, and code cannot check a proof. Task 19 (number theory). Every part's credit rests on an example or an estimate argued in words ("а) да; б) нет; в) 90" earns nothing without the example or the proof), so a key on the final answer would grade the wrong thing.
+
+**Keys are checked in code** (`docket.answers.check_key`). Task 15: the inequality is evaluated on a 40,000-point grid and at every endpoint and isolated point. Task 16: the loan is simulated in exact fractions from the statement and the asked quantity solved. Task 18: the system's distinct solutions are counted exactly (sympy real roots, piecewise over each modulus) for every a on a quarter-step grid, an offset grid and at every boundary value ±1/1000. All 13 keys pass. Breaking a key (dropping a point, flipping a bracket, changing the number) makes the check fail.
+
+**What is run.** Reader B only (`gemini:gemini-3.5-flash-lite`): reader A's provider is at its daily token cap (Amendment 6) until after the deadline, so these are single-reader rows, not Docket's two-reader design. New transcription prompts, one per task (`src/docket/readers.py`, `TRANSCRIBERS`). Task 13's prompt and cache key are unchanged. Run 1 (`d2x-r1`) covers all 26 task-15, 16 and 18 scripts of the seeded 61 (`eval/slice_keyed61.json`). Runs 2 and 3 (`d2x-r2`, `d2x-r3`) cover the 9 of those in the fixed 21 (`eval/slice_keyed21.json`) and carry the spread. That is 44 calls, under a cap of 70 Gemini calls. If Gemini answers 429 with a per-day quota, the run stops, the message goes into `eval/results/limits.json`, and unread scripts stay unread, counted as not run.
+
+**The bar is the same as task 13's design-2 row.** Report exact and within one per task and pooled, with Wilson 95% intervals and every N. Pair exact agreement script for script with the CHECK-MAT authors' published per-script results on the same scripts (exact two-sided McNemar). Report the run-to-run spread on the 9. A gap counts as a win only at McNemar p < 0.05 and above the spread. A lower number is printed as plainly as a higher one. The task-13 headline row stays as it is, and the new rows sit beside it.
+
 ## Results (generated by eval/make_tables.py)
 
-Not run yet.
+### Headline: design 1, design 2 and one reader alone, task 13
+
+Exact and within one point of the official grade, with counts and Wilson 95% intervals. The published rows are the CHECK-MAT author's own per-script results in the repo's `model_results` files: two on the same 21 task-13 scripts, and the best on all 122 scripts for scale. Those are other models, not run by Docket. Sources: `eval/results/agreement_d1.json`, `eval/results/agreement_d2.json`, `eval/results/published_baselines.json`.
+
+| Setup | Exact | Within one | Share of scripts | Slice and run |
+|---|---|---|---|---|
+| Design 1 (readers judge criteria): signs without a teacher | 33.3% (2/6; 95% CI 9.7 to 70.0) | 66.7% (4/6; 95% CI 30.0 to 90.3) | 60.0% (6/10; 95% CI 31.3 to 83.2) | task13s61, 10 scripts, run r1 |
+| Design 1 (readers judge criteria): teacher-free floor | 50.0% (5/10; 95% CI 23.7 to 76.3) | 80.0% (8/10; 95% CI 49.0 to 94.3) | all | task13s61, 10 scripts, run r1 |
+| Design 1 (readers judge criteria): reader A alone (`groq:qwen/qwen3.8-27b`) | 40.0% (4/10; 95% CI 16.8 to 68.7) | 80.0% (8/10; 95% CI 49.0 to 94.3) | all | task13s61, 10 scripts, run r1 |
+| Design 1 (readers judge criteria): reader B alone (`gemini:gemini-3.5-flash-lite`) | 40.0% (4/10; 95% CI 16.8 to 68.7) | 80.0% (8/10; 95% CI 49.0 to 94.3) | all | task13s61, 10 scripts, run r1 |
+| Design 2, reader B + code key only (`gemini:gemini-3.5-flash-lite`; one reader, not the two-reader design) | 76.2% (16/21; 95% CI 54.9 to 89.4) | 95.2% (20/21; 95% CI 77.3 to 99.2) | all | task13, 21 scripts, run d2b-r1 |
+| Published, not run by Docket: `google/gemini-2.0-flash-001` (with_true_solution), the same task-13 scripts | 57.1% (12/21) | 95.2% | all | CHECK-MAT repo, 21 task-13 scripts |
+| Published, not run by Docket: `google/gemini-2.0-flash-lite-001` (with_true_solution), the same task-13 scripts | 57.1% (12/21) | 81.0% | all | CHECK-MAT repo, 21 task-13 scripts |
+| Published, not run by Docket: `openai/o4-mini` (with_answer) | 56.6% | 86.9% | all | CHECK-MAT repo, 122 scripts |
+
+### Design 2, reader B + code key: paired on the same scripts (exact agreement)
+
+Exact two-sided McNemar test on discordant scripts. Source: `eval/results/single_reader_d2_b.json`; published per-script results from the CHECK-MAT repo's `model_results` files.
+
+| First | Second | Scripts | Only first right | Only second right | Both right | Neither | McNemar p |
+|---|---|---|---|---|---|---|---|
+| design 2, reader B + key | design 1, reader B alone | 10 | 3 | 1 | 3 | 3 | 0.625 |
+| design 2, reader B + key | design 1, reader A alone | 10 | 2 | 0 | 4 | 4 | 0.5 |
+| design 2, reader B + key | design 1, two-reader teacher-free floor | 10 | 2 | 1 | 4 | 3 | 1.0 |
+| design 2, reader B + key | published `google/gemini-2.0-flash-001` (with_true_solution) | 21 | 6 | 2 | 10 | 3 | 0.2891 |
+| design 2, reader B + key | published `google/gemini-2.0-flash-lite-001` (with_true_solution) | 21 | 6 | 2 | 10 | 3 | 0.2891 |
+| design 2, reader B + key | published `google/gemini-2.0-flash-001` (with_answer) | 21 | 8 | 3 | 8 | 2 | 0.2266 |
+
+Run-to-run spread of reader B + key, exact, on `task13s61`: mean 60.0%, min 60.0, max 60.0, over 3 run(s) (60.0, 60.0, 60.0).
+Exact per run: d2b-r1 16/21, d2b-r2 6/10, d2b-r3 6/10.
+
+### Design 2, reader B + code key, beyond task 13 (Amendment 7)
+
+One reader (`gemini:gemini-3.5-flash-lite`), not the two-reader design. Run d2x-r1 on `keyed61`: 26 of 26 scripts graded. Published: the CHECK-MAT authors' per-script results (with_true_solution) of the model with the most exact on the same scripts, not run by Docket. Exact two-sided McNemar on discordant scripts. Source: `eval/results/single_reader_d2_b_keyed.json`.
+
+| Task | Exact | Within one | Above / below official | Best published on the same scripts | Only Docket right | Only published right | McNemar p |
+|---|---|---|---|---|---|---|---|
+| task 15 (inequality) | 70.0% (7/10; 95% CI 39.7 to 89.2) | 70.0% (7/10; 95% CI 39.7 to 89.2) | 2 / 1 | `openai/o4-mini` 7/10 | 1 | 1 | 1.0 |
+| task 16 (loan word problem) | 62.5% (5/8; 95% CI 30.6 to 86.3) | 100.0% (8/8; 95% CI 67.6 to 100.0) | 3 / 0 | `openai/o4-mini` 6/8 | 1 | 2 | 1.0 |
+| task 18 (parameter) | 62.5% (5/8; 95% CI 30.6 to 86.3) | 75.0% (6/8; 95% CI 40.9 to 92.9) | 1 / 2 | `openai/o4-mini` 6/8 | 1 | 2 | 1.0 |
+| tasks 15, 16 and 18 pooled | 65.4% (17/26; 95% CI 46.2 to 80.6) | 80.8% (21/26; 95% CI 62.1 to 91.5) | 6 / 3 | `openai/o4-mini` 19/26 | 3 | 5 | 0.7266 |
+
+Run-to-run spread, exact, on `keyed21`: mean 66.7%, min 66.7, max 66.7, over 3 run(s) (d2x-r1 6/9, d2x-r2 6/9, d2x-r3 6/9).
+
+### Design 1 (readers judge criteria): agreement with the official grade (slice: task13s61; scripts per run: 10; runs: r1)
+
+Mean of the runs, min to max in brackets, when more than one run. Source: `eval/results/agreement_d1.json`.
+
+| Setup | Exact | Within one | Scripts it grades |
+|---|---|---|---|
+| Docket, when it signs without a teacher | 33.3% | 66.7% | 60.0% of the slice |
+| Docket, teacher-free floor (disputed criteria take the lower reading) | 50.0% | 80.0% | all |
+| Reader A alone (`groq:qwen/qwen3.8-27b`) | 40.0% | 80.0% | all |
+| Reader B alone (`gemini:gemini-3.5-flash-lite`) | 40.0% | 80.0% | all |
+| Docket with the official grade standing in for the teacher (true by construction on routed scripts) | 60.0% | 80.0% | all |
+| Reference, not run by Docket: best published single model in the CHECK-MAT repo (`openai/o4-mini`, with_true_solution, 122 scripts) | 54.1% | 82.8% | all |
+
+### Design 1 (readers judge criteria): paired comparison on the same scripts (exact agreement)
+
+Discordant scripts: only the first right, only the second right. Exact two-sided McNemar test. Source: `eval/results/agreement_d1.json`.
+
+| First | Second | Only first right | Only second right | Both right | Neither | McNemar p |
+|---|---|---|---|---|---|---|
+| Docket teacher-free floor | reader A alone | 1 | 0 | 4 | 5 | 1.0 |
+| Docket teacher-free floor | reader B alone | 1 | 0 | 4 | 5 | 1.0 |
+| reader A alone | reader B alone | 1 | 1 | 3 | 5 | 1.0 |
+
+### Design 1 (readers judge criteria): teacher load and what the interrupt catches
+
+Source: `eval/results/teacher_load_d1.json`.
+
+| Measure | Mean (min to max) |
+|---|---|
+| Criteria routed to the teacher | 30.0% |
+| Scripts with at least one routed criterion | 40.0% |
+| Routed scripts where the official total differs from reader A | 50.0% |
+| Routed scripts where it differs from reader B | 50.0% |
+| Routed scripts where it differs from at least one reader | 75.0% |
+| Routed scripts where it differs from both readers | 25.0% |
+
+### Design 1 (readers judge criteria): against the preregistered bar
+
+Source: `eval/results/verdicts_d1.json`, computed in code from the bar above. Means from r1 on task13s61; spreads from r1 on task13s61.
+
+| Claim | Result |
+|---|---|
+| Exact when it signs vs reader A alone | loss on 1 run(s); the bar needs three runs for the spread, so this is not a preregistered result |
+| Exact when it signs vs reader B alone | loss on 1 run(s); the bar needs three runs for the spread, so this is not a preregistered result |
+| Teacher-free floor vs the better single reader (readerA) | win on 1 run(s); the bar needs three runs for the spread, so this is not a preregistered result |
+| Signs without a teacher often enough | win |
+| The interrupt catches real errors | no clear result |
+
+### Robustness
+
+| Check | Result | Source |
+|---|---|---|
+| Tampered credentials and revocation lists rejected (KMS key alias/docket-credentials, credentials from the re-mark test) | 10258 of 10258 | `eval/results/tamper.json` |
+| &nbsp;&nbsp;digit characters | 808 of 808 | |
+| &nbsp;&nbsp;hash characters | 768 of 768 | |
+| &nbsp;&nbsp;letter characters | 4734 of 4734 | |
+| &nbsp;&nbsp;other characters | 486 of 486 | |
+| &nbsp;&nbsp;punctuation characters | 2540 of 2540 | |
+| &nbsp;&nbsp;signature bytes | 922 of 922 | |
+| Scan-less requests declined (blind check, design 2, task-13 scripts of the seeded 61; reader A not run, daily cap) | 2 of 10 | `eval/results/blind.json` |
+| &nbsp;&nbsp;reader B `gemini:gemini-3.5-flash-lite` | 2 of 10 | |
+| &nbsp;&nbsp;reader B `gemini:gemini-3.5-flash-lite`: gave no point at all (no criterion met, 0 by the scheme) | 10 of 10 | |
+| Bad readings blocked before signing (guard), design 1 readings | 50 of 50 | `eval/results/guard_d1.json` |
+| &nbsp;&nbsp;missing-reading | 10 of 10 | |
+| &nbsp;&nbsp;stale-scheme | 10 of 10 | |
+| &nbsp;&nbsp;dropped-criterion | 10 of 10 | |
+| &nbsp;&nbsp;stale-definition | 10 of 10 | |
+| &nbsp;&nbsp;declined | 10 of 10 | |
+| Scheme v1 to v2 (design 1, 0 model calls): re-marked, grade changed, re-issued, revoked | 10 re-marked, 2 changed and re-issued, 2 revoked, 8 unchanged, in 1.1 s; 10 of 10 checks pass | `eval/results/remark_d1.json` |
+
+### Design 1 (readers judge criteria): seconds and cost per script
+
+Source: `eval/results/speed_cost_d1.json`. Free-tier cost is $0; the estimate is the price sheet's per-token price times the measured tokens.
+
+| Measure | Value |
+|---|---|
+| Seconds per script, both readers and code (median, mean, max over 10 timed) | 91.2, 126.2, 276.3 |
+| readerA `groq:qwen/qwen3.8-27b` mean tokens in / out per script | 3830 / 281 |
+| readerA price-sheet estimate per script ([price page](https://console.groq.com/docs/models)) | $0.004188 |
+| readerB `gemini:gemini-3.5-flash-lite` mean tokens in / out per script | 2952.0 / 157.0 |
+| readerB price-sheet estimate per script ([price page](https://aistudio.google.com/docs/pricing)) | $0.001278 |
+| Both readers, price-sheet estimate per script | $0.005466 |
+| What bounds the seconds | the slower call is groq:qwen/qwen3.8-27b on 7 of 10 scripts; median call seconds: groq:qwen/qwen3.8-27b 87.2, gemini:gemini-3.5-flash-lite 61.5; retries after a provider error: 1 and 0 |
+| Free-tier limit, `groq:qwen/qwen3.8-27b` (`eval/results/limits.json`) | 8,000 tokens per minute, 1,000 requests per day: response headers x-ratelimit-limit-tokens: 8000, x-ratelimit-limit-requests: 1000 |
+| Free-tier limit, `groq:qwen/qwen3.8-27b` (`eval/results/limits.json`) | 200,000 tokens per rolling day: 429 body: Limit 200000, Used 198144, Requested 5876. Please try again in 28m56s |
+| Free-tier limit, `gemini:gemini-3-flash` (`eval/results/limits.json`) | 20 requests per day per model: 429 RESOURCE_EXHAUSTED, quotaId GenerateRequestsPerDayPerProjectPerModel-FreeTier, quotaValue 20, retry in 23h47m |
+| Free-tier limit, `groq:qwen/qwen3.8-27b` (`eval/results/limits.json`) | 200,000 tokens per rolling day: 429 body after the t2 request change: Limit 200000, Used 198966, Requested 3657. Please try again in 18m53s |

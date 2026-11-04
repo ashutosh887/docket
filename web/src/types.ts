@@ -70,6 +70,8 @@ export interface SiteIndex {
   images: Record<string, string>;
   readings: Record<string, string[]>;
   pending?: string[];
+  appeals?: string[];
+  other?: string[];
 }
 
 export interface PendingReading {
@@ -99,4 +101,66 @@ export interface SiteData {
   readings: Record<string, unknown[]>;
   pending: Pending[];
   evidence: Record<string, Record<"a" | "b", Record<string, { evidence?: string; confidence?: number; met?: boolean }>>>;
+  appeals: AppealRecord[];
+}
+
+export interface CriterionCall {
+  id: string;
+  readerA: number;
+  readerB: number;
+  margin: number;
+  status: string;
+  reason: string | null;
+}
+
+export interface ReadCriterion {
+  id: string;
+  met?: boolean;
+  confidence?: number;
+  evidence?: string;
+}
+
+export interface ReadingDoc {
+  scriptId: string;
+  officialScore?: number;
+  calls?: CriterionCall[];
+  readings?: Record<"a" | "b", { key?: string; reader?: string; criteria?: ReadCriterion[] } | undefined>;
+}
+
+export interface AppealCall {
+  id: string;
+  readerA: number;
+  readerB: number;
+  why?: string | null;
+  points: number;
+  before?: number | null;
+  decidedBy?: string;
+}
+
+export type AppealRecord = Record<string, unknown> & {
+  file: string;
+  signed: boolean | null;
+  calls?: AppealCall[];
+  readers?: { a?: string; b?: string };
+  swapCheck?: { sameCalls?: boolean; differences?: unknown[]; originalRoute?: string; swappedRoute?: string };
+  teacher?: { note?: string | null };
+  modelCalls?: number;
+};
+
+export interface Headline {
+  writtenAt: string;
+  slice: string;
+  docket: {
+    design: string;
+    reader: string;
+    model: string;
+    scripts: number;
+    exact: { k: number; n: number; pct: number; low: number; high: number };
+    withinOne: { k: number; n: number; pct: number; low: number; high: number };
+    aboveOfficial?: number;
+  };
+  baseline: { model: string; mode: string; scripts: number; exact: number; exactPct: number; withinOnePct: number; source: string } | null;
+  mcnemarExactP: number | null;
+  spread: { on: string; mean: number; min: number; max: number; spread: number; runs: number[] } | null;
+  files: string[];
 }

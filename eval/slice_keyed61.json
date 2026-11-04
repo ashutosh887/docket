@@ -1,0 +1,41 @@
+{
+  "seed": 20261104,
+  "size": 26,
+  "variant": "without_answer",
+  "mode": "with_true_solution",
+  "subsetOf": "slice_seeded61.json",
+  "tasks": [
+    15,
+    16,
+    18
+  ],
+  "rule": "every script of the parent slice whose task is 15, 16 or 18 (the tasks with code answer keys, Amendment 7)",
+  "scriptIds": [
+    "15.1.2",
+    "15.1.4",
+    "15.2.1",
+    "15.2.2",
+    "15.2.4",
+    "15.3.2",
+    "15.3.3",
+    "15.3.4",
+    "15.5.1",
+    "15.5.2",
+    "16.2.3",
+    "16.2.4",
+    "16.3.1",
+    "16.4.1",
+    "16.4.2",
+    "16.4.3",
+    "16.5.1",
+    "16.5.2",
+    "18.1.1",
+    "18.1.2",
+    "18.2.1",
+    "18.2.3",
+    "18.3.1",
+    "18.3.4",
+    "18.4.2",
+    "18.5.1"
+  ]
+}

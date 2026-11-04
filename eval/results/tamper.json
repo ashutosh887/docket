@@ -1,60 +1,60 @@
 {
   "metric": "tamper",
-  "label": "kms",
+  "label": "KMS key alias/docket-credentials, credentials from the re-mark test",
   "keyIds": [
     "arn:aws:kms:ap-south-1:960149837193:key/3e29a662-62e2-4526-aacf-28f7b0722921"
   ],
   "pem": "examples/docket-public.pem",
-  "credentials": 3,
+  "credentials": 12,
   "revocationLists": 1,
-  "controlsVerifiedPython": 4,
-  "controlsVerifiedWeb": 4,
-  "controlsTotal": 4,
+  "controlsVerifiedPython": 13,
+  "controlsVerifiedWeb": 13,
+  "controlsTotal": 13,
   "controlsNotVerifying": [],
-  "method": "one character changed at every position of each signed payload, and one base64 character of each signature; verified with the published public key by the page's own verifySigned (web/src/crypto.ts in Node WebCrypto) and by Python cryptography",
-  "total": 2444,
-  "passed": 2444,
-  "rejectedBeforeSignatureCheck": 628,
+  "method": "one character changed at every position of each signed payload, and the lowest bit of every byte of each DER signature; verified with the published public key by the page's own verifySigned (web/src/crypto.ts in Node WebCrypto) and by Python cryptography",
+  "total": 10258,
+  "passed": 10258,
+  "rejectedBeforeSignatureCheck": 2588,
   "parts": [
     {
       "label": "digit characters",
       "class": "digit",
-      "total": 192,
-      "passed": 192
+      "total": 808,
+      "passed": 808
     },
     {
       "label": "hash characters",
       "class": "hash",
-      "total": 192,
-      "passed": 192
+      "total": 768,
+      "passed": 768
     },
     {
       "label": "letter characters",
       "class": "letter",
-      "total": 1001,
-      "passed": 1001
+      "total": 4734,
+      "passed": 4734
     },
     {
       "label": "other characters",
       "class": "other",
-      "total": 68,
-      "passed": 68
+      "total": 486,
+      "passed": 486
     },
     {
       "label": "punctuation characters",
       "class": "punctuation",
-      "total": 609,
-      "passed": 609
+      "total": 2540,
+      "passed": 2540
     },
     {
-      "label": "signature characters",
+      "label": "signature bytes",
       "class": "signature",
-      "total": 382,
-      "passed": 382
+      "total": 922,
+      "passed": 922
     }
   ],
   "acceptedTampered": [],
   "acceptedByWeb": 0,
   "acceptedByPython": 0,
-  "writtenAt": "2026-11-04T08:32:06.253267+00:00"
+  "writtenAt": "2026-11-04T11:11:31.109440+00:00"
 }

@@ -11,10 +11,14 @@ dependencies = [
   "google-genai>=2.34",
   "openai>=3.45",
   "cryptography>=46",
+  "sympy>=1.14.0",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+eval = [
+    "strands-agents-evals>=1.8.0",
+]
 
 [project.scripts]
 docket = "docket.cli:main"

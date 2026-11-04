@@ -26,12 +26,14 @@ done
 skip_build=false
 reset_data=false
 local_data=false
+appeals=false
 for arg in "$@"; do
   case "$arg" in
     --skip-build) skip_build=true ;;
     --reset-data) reset_data=true ;;
     --local-data) local_data=true ;;
-    *) echo "usage: publish.sh [--skip-build] [--local-data] [--reset-data]" >&2; exit 2 ;;
+    --appeals) appeals=true ;;
+    *) echo "usage: publish.sh [--skip-build] [--local-data] [--reset-data] [--appeals]" >&2; exit 2 ;;
   esac
 done
 
@@ -52,6 +54,29 @@ fi
 if "$local_data"; then
   aws s3 sync "$web/dist/data" "s3://$data_bucket/data" --region "$region" \
     --cache-control "public,max-age=30"
+fi
+if "$appeals" && [[ -d "$web/dist/data/appeals" ]]; then
+  aws s3 sync "$web/dist/data/appeals" "s3://$data_bucket/data/appeals" --region "$region" --cache-control "public,max-age=30"
+  source_dir="$(cd "$here/../examples/site-data/appeals" && pwd)"
+  for file in "$source_dir"/credentials/*.json; do
+    key="data/credentials/$(basename "$file")"
+    if ! aws s3api head-object --bucket "$data_bucket" --key "$key" --region "$region" >/dev/null 2>&1; then
+      aws s3 cp "$file" "s3://$data_bucket/$key" --region "$region" --cache-control "public,max-age=30" --content-type application/json
+    fi
+  done
+  live_list="$(mktemp)"
+  aws s3 cp "s3://$data_bucket/data/revocations.json" "$live_list" --region "$region" >/dev/null 2>&1 || echo '{"entries":[]}' > "$live_list"
+  if node -e '
+    const [live, next] = process.argv.slice(1).map((f) => JSON.parse(require("fs").readFileSync(f, "utf8")));
+    const ids = new Set(next.entries.map((e) => e.credentialId));
+    process.exit(next.signature && live.entries.every((e) => ids.has(e.credentialId)) ? 0 : 1);
+  ' "$live_list" "$web/dist/data/revocations.json"; then
+    aws s3 cp "$web/dist/data/revocations.json" "s3://$data_bucket/data/revocations.json" --region "$region" \
+      --cache-control "public,max-age=30" --content-type application/json
+  else
+    echo "revocations.json in web/dist drops entries the live list holds; left the live list in place." >&2
+  fi
+  rm -f "$live_list"
 fi
 reindex="$(output ReindexFunctionName)"
 if [[ -n "$reindex" && "$reindex" != "None" ]]; then

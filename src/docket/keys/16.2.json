@@ -1,0 +1,19 @@
+{
+  "variant": "16.2",
+  "task": 16,
+  "question": "Loan of 1300 thousand rubles in July 2025 for ten years, debt grows 20% each January; July debt falls by one equal amount in 2026-2030 and by another equal amount in 2031-2035, zero in July 2035; all payments total 2580 thousand. Debt in July 2030?",
+  "answer": "500",
+  "answer_unit": "тыс. рублей",
+  "accepted": [
+    "500",
+    "500000"
+  ],
+  "criteria": {
+    "2": "Обоснованно получен верный ответ",
+    "1": "Верно построена математическая модель",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 16.2_solve_true.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key simulates the loan from the statement and solves for the asked quantity"
+}

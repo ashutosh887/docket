@@ -1,0 +1,65 @@
+{
+  "metric": "verdicts",
+  "design": "1",
+  "runIds": [
+    "r1"
+  ],
+  "slice": [
+    "task13s61"
+  ],
+  "models": {
+    "r1": {
+      "a": "groq:qwen/qwen3.8-27b",
+      "b": "gemini:gemini-3.5-flash-lite"
+    }
+  },
+  "readerSettings": {
+    "r1": {
+      "a": "groq:qwen/qwen3.8-27b",
+      "b": "gemini:gemini-3.5-flash-lite@thinking=low,max_output_tokens=8192"
+    }
+  },
+  "startedAt": {
+    "r1": "2026-11-04T09:10:21.371327+00:00"
+  },
+  "finishedAt": {
+    "r1": null
+  },
+  "variant": [
+    "without_answer"
+  ],
+  "mode": [
+    "with_true_solution"
+  ],
+  "writtenAt": "2026-11-04T11:39:44.153622+00:00",
+  "bar": {
+    "commitsGapPoints": 10,
+    "floorGapPoints": 5,
+    "commitsWinShare": 40,
+    "commitsLossShare": 25,
+    "catchWinShare": 80,
+    "catchLossShare": 50
+  },
+  "meansFrom": {
+    "runs": [
+      "r1"
+    ],
+    "slice": [
+      "task13s61"
+    ]
+  },
+  "spreadsFrom": {
+    "runs": [
+      "r1"
+    ],
+    "slice": [
+      "task13s61"
+    ]
+  },
+  "bestSingleReader": "readerA",
+  "exactWhenCommitsVsReaderA": "loss on 1 run(s); the bar needs three runs for the spread, so this is not a preregistered result",
+  "exactWhenCommitsVsReaderB": "loss on 1 run(s); the bar needs three runs for the spread, so this is not a preregistered result",
+  "floorVsBest": "win on 1 run(s); the bar needs three runs for the spread, so this is not a preregistered result",
+  "commitsShare": "win",
+  "interruptCatches": "no clear result"
+}

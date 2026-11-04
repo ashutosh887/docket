@@ -1,0 +1,78 @@
+{
+  "appealId": "apl_13.3.3_1",
+  "scriptId": "13.3.3",
+  "imageSha256": "d2ae4367e58dddca265dbb1da798bc53efef9fa7c66f911723aaf1e6306df9a3",
+  "appealed": "dkt_13.3.3_v2_1",
+  "schemeId": "ege-profile-math-task-13",
+  "schemeVersion": "v2",
+  "reason": "student asks for a review of K3, the full solution sequence of both parts",
+  "criteria": [
+    "K1",
+    "K2",
+    "K3"
+  ],
+  "readers": {
+    "a": "gemini:gemini-3.5-flash-lite",
+    "b": "groq:qwen/qwen3.8-27b"
+  },
+  "swapCheck": {
+    "sameCalls": true,
+    "differences": [],
+    "originalRoute": "signer",
+    "swappedRoute": "signer"
+  },
+  "calls": [
+    {
+      "id": "K1",
+      "readerA": 1,
+      "readerB": 1,
+      "status": "contested",
+      "why": "under appeal",
+      "points": 1,
+      "before": 1,
+      "decidedBy": "teacher"
+    },
+    {
+      "id": "K2",
+      "readerA": 0,
+      "readerB": 0,
+      "status": "contested",
+      "why": "under appeal",
+      "points": 0,
+      "before": 0,
+      "decidedBy": "teacher"
+    },
+    {
+      "id": "K3",
+      "readerA": 0,
+      "readerB": 0,
+      "status": "contested",
+      "why": "under appeal",
+      "points": 1,
+      "before": 0,
+      "decidedBy": "teacher"
+    }
+  ],
+  "teacher": {
+    "decisions": {
+      "K1": 1,
+      "K2": 0,
+      "K3": 1
+    },
+    "note": "official expert grade (stand-in for the teacher), changing as few appealed marks as reach it"
+  },
+  "oldTotal": 0,
+  "newTotal": 1,
+  "max": 2,
+  "outcome": "upheld",
+  "decision": "appeal upheld: student asks for a review of K3, the full solution sequence of both parts",
+  "standingCredential": "dkt_13.3.3_v2_2",
+  "modelCalls": 0,
+  "filedAt": "2026-11-04T13:53:32Z",
+  "decidedAt": "2026-11-04T13:54:09Z",
+  "signature": {
+    "alg": "ECDSA_SHA_256",
+    "keyId": "arn:aws:kms:ap-south-1:960149837193:key/3e29a662-62e2-4526-aacf-28f7b0722921",
+    "value": "MEQCIHb7mamROeTGmw8/8zL80wTQnhHGPUzIcELKSLqLDuikAiAm5u8qTqUHZawqmrr1zgdJZtra7Id6r9vRDlJeIB2drA=="
+  }
+}

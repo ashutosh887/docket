@@ -1,0 +1,18 @@
+{
+  "variant": "16.4",
+  "task": 16,
+  "question": "Loan of 1 million rubles on 15 January for six months, debt grows r% (r an integer) on the 1st of each month; debt on the 15th follows 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0. Least r with total payments above 1.2 million?",
+  "answer": "5",
+  "answer_unit": "%",
+  "accepted": [
+    "5"
+  ],
+  "criteria": {
+    "2": "Обоснованно получен верный ответ",
+    "1": "Верно построена математическая модель",
+    "0": "Решение не соответствует ни одному из критериев, перечисленных выше"
+  },
+  "source": "CHECK-MAT reference solution 16.4_solve_true.png",
+  "transcribed_by": "improvement agent, read from the reference image on 4 Nov 2026",
+  "checked_by": "code: docket.answers.check_key simulates the loan from the statement and solves for the asked quantity"
+}
