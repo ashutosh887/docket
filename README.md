@@ -4,7 +4,7 @@
 
 **When the exam board corrects its marking scheme, which students' grades are now wrong, and who fixes them?** Docket marks photos of handwritten exam scripts. A vision model transcribes what the student wrote, plain code checks it against the answer key and applies the official marking scheme, and a teacher decides anything two readers disagree on, through a Strands Graph interrupt. AWS KMS signs each result, and anyone can verify it in a browser with no account. When the scheme changes, one file landing in S3 re-marks every script, re-issues the grades that moved and revokes the old ones on a signed list.
 
-**[Live verify page](https://d37lfktm8wxh76.cloudfront.net)** · **[Demo video, 1:44](https://youtu.be/ILI1JPPAMmU)** · **[Builder Center project](PROJECT_URL)**
+**[Live verify page](https://d37lfktm8wxh76.cloudfront.net)** · **[Demo video, 1:44](https://youtu.be/ILI1JPPAMmU)** · **[Builder Center project](https://builder.aws.com/project/3LeKuz7yJirqLFVzjp1Cq3ASJRh/docket-an-exam-marking-agent-that-re-marks-every-affected-script-when-the-rules-change)**
 
 Built for the AWS Builder Center hackathon Strands SDK: Workshop to Ship, Education focus area, by [@ashutosh887](https://github.com/ashutosh887). Release [`v1.0.0`](https://github.com/ashutosh887/docket/releases/tag/v1.0.0) is the code as submitted.
 
