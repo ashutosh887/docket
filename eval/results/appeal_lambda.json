@@ -1,0 +1,121 @@
+{
+  "metric": "appeal-on-aws",
+  "what": "one appeal sent to the deployed Lambda's appeal action; it loads the cached readings behind the standing credential from S3, swaps the reader order, forces the appealed criteria to the teacher interrupt (the official CHECK-MAT grade stands in for the teacher) and signs the appeal record with KMS",
+  "function": "DocketStack-RemarkRemarkScript90C9A07D-8Mask4bcN8oD",
+  "region": "ap-south-1",
+  "event": {
+    "action": "appeal",
+    "scriptId": "13.1.1",
+    "reason": "The student asks for both parts to be checked again."
+  },
+  "invokedAt": "2026-11-04T16:09:55Z",
+  "requestId": "b13bb1d0-2ffc-4d11-875e-b22a92dd211d",
+  "durationMs": 3604.09,
+  "billedDurationMs": 4064,
+  "initDurationMs": 459.57,
+  "maxMemoryMB": 173,
+  "modelCalls": 0,
+  "kmsSignCalls": 1,
+  "response": {
+    "appealId": "apl_13.1.1_1",
+    "scriptId": "13.1.1",
+    "appealed": "dkt_13.1.1_v1_1",
+    "outcome": "unchanged",
+    "decision": "appeal reviewed, grade unchanged",
+    "oldTotal": 2,
+    "newTotal": 2,
+    "max": 2,
+    "standingCredential": "dkt_13.1.1_v1_1",
+    "key": "s3://docketstack-databuckete3889a50-onjawpvtfav5/data/appeals/apl_13.1.1_1.json",
+    "blocked": null
+  },
+  "verify": {
+    "command": "uv run python -m docket verify apl_13.1.1_1.json",
+    "signature": "valid"
+  },
+  "record": {
+    "appealId": "apl_13.1.1_1",
+    "scriptId": "13.1.1",
+    "imageSha256": "f21e26706ad1c2aff54b368156f0465d72c659e8570a99f1638999a0d41e55e0",
+    "appealed": "dkt_13.1.1_v1_1",
+    "schemeId": "ege-profile-math-task-13",
+    "schemeVersion": "v2",
+    "reason": "The student asks for both parts to be checked again.",
+    "criteria": [
+      "K1",
+      "K2",
+      "K3"
+    ],
+    "readers": {
+      "a": "gemini:gemini-3.5-flash-lite",
+      "b": "groq:qwen/qwen3.8-27b"
+    },
+    "swapCheck": {
+      "sameCalls": true,
+      "differences": [],
+      "originalRoute": "signer",
+      "swappedRoute": "signer"
+    },
+    "calls": [
+      {
+        "id": "K1",
+        "readerA": 1,
+        "readerB": 1,
+        "status": "contested",
+        "why": "under appeal",
+        "points": 1,
+        "before": 1,
+        "decidedBy": "teacher"
+      },
+      {
+        "id": "K2",
+        "readerA": 1,
+        "readerB": 1,
+        "status": "contested",
+        "why": "under appeal",
+        "points": 1,
+        "before": 1,
+        "decidedBy": "teacher"
+      },
+      {
+        "id": "K3",
+        "readerA": 1,
+        "readerB": 1,
+        "status": "contested",
+        "why": "under appeal",
+        "points": 1,
+        "before": 1,
+        "decidedBy": "teacher"
+      }
+    ],
+    "teacher": {
+      "decisions": {
+        "K1": 1,
+        "K2": 1,
+        "K3": 1
+      },
+      "note": "official expert grade (stand-in for the teacher), changing as few appealed marks as reach it"
+    },
+    "oldTotal": 2,
+    "newTotal": 2,
+    "max": 2,
+    "outcome": "unchanged",
+    "decision": "appeal reviewed, grade unchanged",
+    "standingCredential": "dkt_13.1.1_v1_1",
+    "modelCalls": 0,
+    "filedAt": "2026-11-04T16:10:00Z",
+    "decidedAt": "2026-11-04T16:10:00Z",
+    "signature": {
+      "alg": "ECDSA_SHA_256",
+      "keyId": "arn:aws:kms:ap-south-1:960149837193:key/3e29a662-62e2-4526-aacf-28f7b0722921",
+      "value": "MEUCIQDCZsztOLwnaKeCiaOEgSpz/IriMtIUcxw2NrLmQmdpOQIgNhWJ+41Atvf+sfvwbRYPhwTsPAhOLY3mTVZiQ/1HRq8="
+    }
+  },
+  "cloudTrail": {
+    "eventName": "Sign",
+    "eventId": "ce5b4d9d-c140-44ec-ade1-65e05772dc42",
+    "eventTime": "2026-11-04T21:40:01+05:30",
+    "username": "DocketStack-RemarkRemarkScript90C9A07D-8Mask4bcN8oD",
+    "lookup": "aws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,AttributeValue=Sign --start-time 2026-11-04T16:05:00Z"
+  }
+}
